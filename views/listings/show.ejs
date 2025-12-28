@@ -58,7 +58,8 @@
   </div>
 
   <div class="col-8 offset-2 mt-3">
-    <% if (currUser) { %>
+    <% if (currUser && listing.Owner && !currUser._id.equals(listing.Owner._id)
+    ){ %>
     <a href="/listings/<%= listing._id %>/book" class="btn btn-light w-100">
       Reserve
     </a>
