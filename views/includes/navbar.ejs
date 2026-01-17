@@ -1,501 +1,495 @@
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 <style>
-  .navbar-brand {
-    color: #007bff !important;
-    font-size: 2rem;
-    margin-right: 2rem;
-    transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  }
-
-  .navbar-brand:hover {
+    .navbar-brand {
+        color: #007bff !important;
+        font-size: 2rem;
+        margin-right: 2rem;
+        transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    /* .navbar-brand:hover {
     color: #0056b3 !important;
     transform: rotate(360deg);
-  }
-
-  .btn-search {
-    background-color: #fe424d;
-    color: white;
-    border-radius: 25px;
-    padding: 0 1rem 0 1rem;
-  }
-
-  .btn-search:hover {
-    background-color: #fe424d;
-    color: white;
-  }
-
-  .btn-search i {
-    display: inline;
-    margin-right: 0.5rem;
-  }
-
-  .search-input {
-    border-radius: 25px;
-    font-size: 0.8rem;
-  }
-
-  .search-wrapper {
-    display: flex;
-    align-items: center;
-  }
-
-  @media (min-width: 768px) {
+  } */
+    
+    .logo-img {
+        height: 50px;
+        width: auto;
+        object-fit: cover;
+    }
+    
+    .btn-search {
+        background-color: #fe424d;
+        color: white;
+        border-radius: 25px;
+        padding: 0 1rem 0 1rem;
+    }
+    
+    .btn-search:hover {
+        background-color: #fe424d;
+        color: white;
+    }
+    
+    .btn-search i {
+        display: inline;
+        margin-right: 0.5rem;
+    }
+    
+    .search-input {
+        border-radius: 25px;
+        font-size: 0.8rem;
+    }
+    
     .search-wrapper {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex !important;
+        display: flex;
+        align-items: center;
     }
-    .heading {
-      display: none;
+    
+    @media (min-width: 768px) {
+        .search-wrapper {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex !important;
+        }
+        .heading {
+            display: none;
+        }
     }
-  }
-
-  .search-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
-
-  .btn-search-init {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    border: 1px solid #ddd;
-    background: #fff;
-    color: #fe424d;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  }
-
-  .btn-search-init:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-
-  .search-form {
-    position: absolute;
-    left: 50%;
-    top: -5px;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    align-items: center;
-    transform: translateX(-50%) translateY(-20px) scale(0.9);
-    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    z-index: 100;
-  }
-
-  .search-container.active .search-form {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transform: translateX(-50%) translateY(0) scale(1);
-    width: 350px;
-  }
-
-  .search-container.active .btn-search-init {
-    opacity: 0;
-    transform: scale(0);
-  }
-
-  .search-input-group {
-    display: flex;
-    align-items: center;
-    background: #fff;
-    border-radius: 50px;
-    padding: 5px 5px 5px 15px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-    border: 1px solid #eee;
-  }
-
-  .search-inner-icon {
-    color: #888;
-    margin-right: 10px;
-  }
-
-  .search-input {
-    border: none !important;
-    box-shadow: none !important;
-    outline: none !important;
-    width: 100%;
-    font-size: 0.9rem;
-  }
-
-  .btn-search-submit {
-    background: #fe424d;
-    color: white;
-    border: none;
-    padding: 8px 20px;
-    border-radius: 40px;
-    font-weight: 600;
-    transition: background 0.2s;
-  }
-
-  @media (min-width: 992px) {
+    
+    .search-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    
     .btn-search-init {
-      display: none;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        border: 1px solid #ddd;
+        background: #fff;
+        color: #fe424d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     }
+    
+    .btn-search-init:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    
     .search-form {
-      position: relative;
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-      transform: none;
-      left: auto;
-      top: auto;
-      width: 400px;
+        position: absolute;
+        left: 50%;
+        top: -5px;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        align-items: center;
+        transform: translateX(-50%) translateY(-20px) scale(0.9);
+        transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        z-index: 100;
     }
-  }
-
-  .auth-links {
-    display: flex;
-    gap: 0.7rem;
-    align-items: center;
-  }
-
-  .auth-link {
-    position: relative;
-    text-decoration: none;
-    font-weight: 500;
-    color: #222;
-    padding: 0.4rem 0.6rem;
-    border-radius: 20px;
-    transition: all 0.3s ease;
-  }
-
-  .auth-link:hover {
-    background: rgba(254, 66, 77, 0.08);
-    color: #fe424d;
-  }
-
-  .auth-link::after {
-    content: "";
-    position: absolute;
-    bottom: 4px;
-    left: 50%;
-    width: 0;
-    height: 2px;
-    background: #fe424d;
-    transition: 0.3s ease;
-    transform: translateX(-50%);
-  }
-
-  .auth-link:hover::after {
-    width: 60%;
-  }
-
-  .user-circle {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    border: 1px solid #ddd;
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: box-shadow 0.2s ease;
-  }
-
-  .user-circle:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  }
-
-  @media (max-width: 768px) {
-    .search-desktop {
-      display: none;
-    }
-    .auth-links {
-      flex-direction: column;
-      align-items: flex-start;
-      margin-top: 0.8rem;
-    }
-    .auth-link {
-      width: 100%;
-      padding: 0.6rem 1rem;
-    }
-    .auth-link::after {
-      display: none;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .search-desktop {
-      display: none !important;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .navbar-brand {
-      margin-right: 0;
-      z-index: 10;
-      position: relative;
-      font-size: 1.2rem;
-      display: flex;
-      align-items: center;
-    }
-    .navbar-brand i {
-      display: none !important;
-    }
-    .btn-search-init {
-      height: 38px;
-      width: 38px;
-    }
-    .mobile-center-search {
-      position: absolute !important;
-      left: 50% !important;
-      top: 50% !important;
-      transform: translate(-50%, -50%) !important;
-      margin: 0 !important;
-      width: auto !important;
-      z-index: 5;
-    }
-    #mainNavbar {
-      position: static;
-    }
-    .navbar > .container-fluid {
-      position: relative;
-      justify-content: space-between;
-    }
-    .navbar-toggler {
-      z-index: 10;
-      position: relative;
-    }
+    
     .search-container.active .search-form {
-      width: 250px;
-      left: 50%;
-      right: auto;
-      transform: translateX(-50%) translateY(45px) scale(1);
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(0) scale(1);
+        width: 350px;
     }
-    .search-wrapper.menu-open {
-      display: none !important;
+    
+    .search-container.active .btn-search-init {
+        opacity: 0;
+        transform: scale(0);
     }
+    
+    .search-input-group {
+        display: flex;
+        align-items: center;
+        background: #fff;
+        border-radius: 50px;
+        padding: 5px 5px 5px 15px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        border: 1px solid #eee;
+    }
+    
+    .search-inner-icon {
+        color: #888;
+        margin-right: 10px;
+    }
+    
+    .search-input {
+        border: none !important;
+        box-shadow: none !important;
+        outline: none !important;
+        width: 100%;
+        font-size: 0.9rem;
+    }
+    
     .btn-search-submit {
-      display: none !important;
+        background: #fe424d;
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 40px;
+        font-weight: 600;
+        transition: background 0.2s;
     }
-    .form-control {
-      padding: 0.5rem 0.5rem 0.5rem 0.1rem;
+    
+    @media (min-width: 992px) {
+        .btn-search-init {
+            display: none;
+        }
+        .search-form {
+            position: relative;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: none;
+            left: auto;
+            top: auto;
+            width: 400px;
+        }
     }
-    input[type="search"]::-webkit-search-cancel-button {
-      -webkit-appearance: none;
-      height: 28px;
-      width: 28px;
-      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23555'%3E%3Cpath d='M18.3 5.71 12 12l6.3 6.29-1.41 1.42L12 13.41l-6.29 6.3-1.42-1.42L10.59 12 4.29 5.71 5.71 4.29 12 10.59l6.29-6.3z'/%3E%3C/svg%3E")
-        no-repeat center;
-      background-size: 18px;
+    
+    .auth-links {
+        display: flex;
+        gap: 0.7rem;
+        align-items: center;
     }
-    input[type="search"]::-webkit-search-cancel-button:active {
-      background-color: rgba(0, 0, 0, 0.08);
+    
+    .auth-link {
+        position: relative;
+        text-decoration: none;
+        font-weight: 500;
+        color: #222;
+        padding: 0.4rem 0.6rem;
+        border-radius: 20px;
+        transition: all 0.3s ease;
     }
-  }
-
-  @media (max-width: 768px) {
-    .heading {
-      color: #007bff;
-      font-size: 20px;
+    
+    .auth-link:hover {
+        background: rgba(254, 66, 77, 0.08);
+        color: #fe424d;
     }
-    .mobile-user-icon {
-      position: relative;
-      margin-right: 1.2rem;
-      z-index: 10;
+    
+    .auth-link::after {
+        content: "";
+        position: absolute;
+        bottom: 4px;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: #fe424d;
+        transition: 0.3s ease;
+        transform: translateX(-50%);
     }
-    .mobile-user-icon .user-circle {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      border: 1px solid #ddd;
-      background: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    
+    .auth-link:hover::after {
+        width: 60%;
     }
-    .mobile-user-icon .dropdown-menu {
-      margin-top: 0.5rem;
-    }
-    /* Align items nicely */
-    .navbar > .container-fluid {
-      align-items: center;
-    }
-    .fa-regular,
+    
     .user-circle {
-      display: none;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        border: 1px solid #ddd;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: box-shadow 0.2s ease;
     }
-  }
+    
+    .user-circle:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    @media (max-width: 768px) {
+        .search-desktop {
+            display: none;
+        }
+        .auth-links {
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 0.8rem;
+        }
+        .auth-link {
+            width: 100%;
+            padding: 0.6rem 1rem;
+        }
+        .auth-link::after {
+            display: none;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .search-desktop {
+            display: none !important;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .navbar-brand {
+            margin-right: 0;
+            z-index: 10;
+            position: relative;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+        .navbar-brand i {
+            display: none !important;
+        }
+        .btn-search-init {
+            height: 38px;
+            width: 38px;
+        }
+        .mobile-center-search {
+            position: absolute !important;
+            left: 50% !important;
+            top: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            margin: 0 !important;
+            width: auto !important;
+            z-index: 5;
+        }
+        #mainNavbar {
+            position: static;
+        }
+        .navbar>.container-fluid {
+            position: relative;
+            justify-content: space-between;
+        }
+        .navbar-toggler {
+            z-index: 10;
+            position: relative;
+        }
+        .search-container.active .search-form {
+            width: 250px;
+            left: 50%;
+            right: auto;
+            transform: translateX(-50%) translateY(45px) scale(1);
+        }
+        .search-wrapper.menu-open {
+            display: none !important;
+        }
+        .btn-search-submit {
+            display: none !important;
+        }
+        .form-control {
+            padding: 0.5rem 0.5rem 0.5rem 0.1rem;
+        }
+        input[type="search"]::-webkit-search-cancel-button {
+            -webkit-appearance: none;
+            height: 28px;
+            width: 28px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23555'%3E%3Cpath d='M18.3 5.71 12 12l6.3 6.29-1.41 1.42L12 13.41l-6.29 6.3-1.42-1.42L10.59 12 4.29 5.71 5.71 4.29 12 10.59l6.29-6.3z'/%3E%3C/svg%3E") no-repeat center;
+            background-size: 18px;
+        }
+        input[type="search"]::-webkit-search-cancel-button:active {
+            background-color: rgba(0, 0, 0, 0.08);
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .heading {
+            display: none;
+        }
+        .mobile-user-icon {
+            position: relative;
+            margin-right: 1.2rem;
+            z-index: 10;
+        }
+        .mobile-user-icon .user-circle {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .mobile-user-icon .dropdown-menu {
+            margin-top: 0.5rem;
+        }
+        /* Align items nicely */
+        .navbar>.container-fluid {
+            align-items: center;
+        }
+        .fa-regular,
+        .user-circle {
+            display: none;
+        }
+    }
 </style>
-<nav
-  class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top"
->
-  <div class="container-fluid">
-    <!-- LOGO -->
-    <a class="navbar-brand fw-bold" href="/listings">
-      <span><i class="icon fa-regular fa-compass me-1"></i></span>
-      <span class="heading">WanderLust</span>
-    </a>
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top">
+    <div class="container-fluid">
+        <!-- LOGO -->
+        <a class="navbar-brand fw-bold" href="/listings">
+            <span><img src="/images/logo1.png" alt="wanderlust logo" class="logo-img"
+      /></span>
+            <span class="heading">WanderLust</span>
+        </a>
 
-    <!-- SEARCH (MOVED) -->
-    <div class="search-wrapper mobile-center-search">
-      <div class="search-container" id="searchContainer">
-        <button
-          class="btn-search-init"
-          id="searchToggle"
-          aria-label="Open Search"
-        >
+        <!-- SEARCH (MOVED) -->
+        <div class="search-wrapper mobile-center-search">
+            <div class="search-container" id="searchContainer">
+                <button class="btn-search-init" id="searchToggle" aria-label="Open Search">
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
 
-        <form
-          class="search-form"
-          action="/listings"
-          method="GET"
-          role="search"
-          id="searchForm"
-        >
-          <div class="search-input-group">
-            <i class="fa-solid fa-magnifying-glass search-inner-icon"></i>
-            <input
-              class="form-control search-input"
-              type="search"
-              name="q"
-              placeholder="Where are you going?"
-            />
-            <button class="btn-search-submit" type="submit">Search</button>
-          </div>
-        </form>
-      </div>
-    </div>
+                <form class="search-form" action="/listings" method="GET" role="search" id="searchForm">
+                    <div class="search-input-group">
+                        <i class="fa-solid fa-magnifying-glass search-inner-icon"></i>
+                        <input class="form-control search-input" type="search" name="q" placeholder="Where are you going?" />
+                        <button class="btn-search-submit" type="submit">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-    <div class="d-flex align-items-center ms-auto d-lg-none">
-      <% if (typeof currUser !== "undefined" && currUser) { %>
-      <div class="mobile-user-icon">
-        <button class="user-circle" data-bs-toggle="dropdown">
+        <div class="d-flex align-items-center ms-auto d-lg-none">
+            <% if (typeof currUser !== "undefined" && currUser) { %>
+                <div class="mobile-user-icon">
+                    <button class="user-circle" data-bs-toggle="dropdown">
           <i class="fa-solid fa-user"></i>
         </button>
 
-        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-          <li>
-            <a class="dropdown-item" href="/profile">
-              <i class="fa-regular fa-user me-2"></i> Profile
-            </a>
-          </li>
-          <li>
-            <hr class="dropdown-divider" />
-          </li>
-          <li>
-            <a class="dropdown-item text-danger" href="/logout">
-              <i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Logout
-            </a>
-          </li>
-        </ul>
-      </div>
-      <% } %>
-      <!-- TOGGLER -->
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#mainNavbar"
-      >
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                        <li>
+                            <a class="dropdown-item" href="/profile">
+                                <i class="fa-regular fa-user me-2"></i> Profile
+                            </a>
+                        </li>
+                        <% if (currUser && currUser.role === "host") { %>
+                            <li>
+                                <a class="dropdown-item" href="/profile/host">
+                                    <i class="fa-solid fa-tachometer-alt me-2"></i> Host Dashboard
+                                </a>
+                            </li>
+                            <% } %>
+                                <li>
+                                    <hr class="dropdown-divider" />
+                                </li>
+                                <li>
+                                    <a class="dropdown-item text-danger" href="/logout">
+                                        <i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Logout
+                                    </a>
+                                </li>
+                    </ul>
+                </div>
+                <% } %>
+                    <!-- TOGGLER -->
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
         <span class="navbar-toggler-icon"></span>
       </button>
-    </div>
-
-    <!-- NAV CONTENT -->
-    <div class="collapse navbar-collapse" id="mainNavbar">
-      <!-- LEFT -->
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" href="/listings">Explore</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/listings/new">Become a Host</a>
-        </li>
-      </ul>
-
-      <!-- AUTH / USER -->
-      <div class="navbar-nav ms-lg-3">
-        <% if (!currUser) { %>
-        <div class="auth-links">
-          <a href="/signup" class="auth-link signup">Sign up</a>
-          <a href="/login" class="auth-link login">Log in</a>
         </div>
-        <% } %> <% if (currUser) { %>
-        <div class="dropdown ms-lg-3 mt-2 mt-lg-0">
-          <button class="user-circle" data-bs-toggle="dropdown">
+
+        <!-- NAV CONTENT -->
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <!-- LEFT -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/listings">Explore</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/listings/new">Become a Host</a>
+                </li>
+            </ul>
+
+            <!-- AUTH / USER -->
+            <div class="navbar-nav ms-lg-3">
+                <% if (!currUser) { %>
+                    <div class="auth-links">
+                        <a href="/signup" class="auth-link signup">Sign up</a>
+                        <a href="/login" class="auth-link login">Log in</a>
+                    </div>
+                    <% } %>
+                        <% if (currUser) { %>
+                            <div class="dropdown ms-lg-3 mt-2 mt-lg-0">
+                                <button class="user-circle" data-bs-toggle="dropdown">
             <i class="fa-solid fa-user"></i>
           </button>
 
-          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-            <li>
-              <a class="dropdown-item" href="/profile">
-                <i class="fa-regular fa-user me-2"></i> Profile
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider" />
-            </li>
-            <li>
-              <a class="dropdown-item text-danger" href="/logout">
-                <i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Logout
-              </a>
-            </li>
-          </ul>
+                                <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                                    <li>
+                                        <a class="dropdown-item" href="/profile">
+                                            <i class="fa-regular fa-user me-2"></i> Profile
+                                        </a>
+                                    </li>
+                                    <% if (currUser && currUser.role === "host") { %>
+                                        <li>
+                                            <a class="dropdown-item" href="/profile/host">
+                                                <i class="fa-solid fa-tachometer-alt me-2"></i> Host Dashboard
+                                            </a>
+                                        </li>
+                                        <% } %>
+                                            <li>
+                                                <hr class="dropdown-divider" />
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item text-danger" href="/logout">
+                                                    <i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Logout
+                                                </a>
+                                            </li>
+                                </ul>
+                            </div>
+                            <% } %>
+            </div>
         </div>
-        <% } %>
-      </div>
     </div>
-  </div>
 </nav>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const searchToggle = document.getElementById("searchToggle");
-    const searchContainer = document.getElementById("searchContainer");
-    const searchInput = document.querySelector(".search-input");
+    document.addEventListener("DOMContentLoaded", () => {
+        const searchToggle = document.getElementById("searchToggle");
+        const searchContainer = document.getElementById("searchContainer");
+        const searchInput = document.querySelector(".search-input");
 
-    searchToggle.addEventListener("click", (e) => {
-      e.stopPropagation();
-      searchContainer.classList.add("active");
-      // Small delay to ensure input is visible before focusing
-      setTimeout(() => searchInput.focus(), 100);
+        searchToggle.addEventListener("click", (e) => {
+            e.stopPropagation();
+            searchContainer.classList.add("active");
+            // Small delay to ensure input is visible before focusing
+            setTimeout(() => searchInput.focus(), 100);
+        });
+
+        // Close on click outside
+        document.addEventListener("click", (e) => {
+            if (!searchContainer.contains(e.target)) {
+                searchContainer.classList.remove("active");
+            }
+        });
+
+        // Hide search when hamburger menu is open
+        const mainNavbar = document.getElementById("mainNavbar");
+        const searchWrapper = document.querySelector(".search-wrapper");
+        if (mainNavbar && searchWrapper) {
+            mainNavbar.addEventListener("show.bs.collapse", () => {
+                searchWrapper.classList.add("menu-open");
+            });
+            mainNavbar.addEventListener("hidden.bs.collapse", () => {
+                searchWrapper.classList.remove("menu-open");
+            });
+        }
     });
-
-    // Close on click outside
-    document.addEventListener("click", (e) => {
-      if (!searchContainer.contains(e.target)) {
-        searchContainer.classList.remove("active");
-      }
-    });
-
-    // Hide search when hamburger menu is open
-    const mainNavbar = document.getElementById("mainNavbar");
-    const searchWrapper = document.querySelector(".search-wrapper");
-    if (mainNavbar && searchWrapper) {
-      mainNavbar.addEventListener("show.bs.collapse", () => {
-        searchWrapper.classList.add("menu-open");
-      });
-      mainNavbar.addEventListener("hidden.bs.collapse", () => {
-        searchWrapper.classList.remove("menu-open");
-      });
-    }
-  });
 </script>
 <script>
-  const searchToggle = document.getElementById("searchToggle");
-  const searchInput = document.getElementById("searchInput");
+    const searchToggle = document.getElementById("searchToggle");
+    const searchInput = document.getElementById("searchInput");
 
-  // When search is opened
-  if (searchToggle) {
-    searchToggle.addEventListener("click", () => {
-      if (searchInput && searchInput.value !== "") {
-        searchInput.value = "";
-      }
-    });
-  }
+    // When search is opened
+    if (searchToggle) {
+        searchToggle.addEventListener("click", () => {
+            if (searchInput && searchInput.value !== "") {
+                searchInput.value = "";
+            }
+        });
+    }
 </script>

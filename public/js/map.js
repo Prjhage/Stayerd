@@ -2,6 +2,7 @@ let apiKey = mapToken;
 
 let lat = 28.6139;
 let lng = 77.209;
+
 if (listing.geometry && listing.geometry.coordinates) {
   lng = listing.geometry.coordinates[0];
   lat = listing.geometry.coordinates[1];
@@ -16,4 +17,11 @@ L.tileLayer(
   }
 ).addTo(map);
 
-L.marker([lat, lng]).addTo(map).bindPopup(listing.location).openPopup();
+const marker = L.marker([lat, lng]).addTo(map);
+
+marker.bindPopup(listing.location);
+
+marker.on("click", () => {
+  const googleMapUrl = `https://www.google.com/maps?q=${lat},${lng}`;
+  window.open(googleMapUrl, "_blank");
+});

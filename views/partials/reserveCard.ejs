@@ -1,0 +1,111 @@
+<form
+  action="/listings/<%= listing._id %>/book"
+  method="GET"
+  class="reserve-form"
+>
+  <div class="reserve-card">
+    <!-- PRICE LINE -->
+    <div class="price-line">
+      <span class="old-price">
+        ₹<%= (listing.price * 1.12).toLocaleString("en-IN") %>
+      </span>
+
+      <span class="new-price final-price">
+        ₹<%= listing.price.toLocaleString("en-IN") %>
+      </span>
+
+      <span class="night-text">
+        for <span class="night-count">1</span> night
+      </span>
+    </div>
+
+    <!-- BASE PRICE -->
+    <input type="hidden" class="base-price" value="<%= listing.price %>" />
+
+    <!-- ✅ SINGLE SOURCE OF TRUTH (HIDDEN INPUTS) -->
+    <input type="hidden" name="adults" class="input-adults" value="1" />
+    <input type="hidden" name="children" class="input-children" value="0" />
+    <input type="hidden" name="infants" class="input-infants" value="0" />
+    <input type="hidden" name="animals" class="input-animals" value="0" />
+
+    <!-- GUEST SELECT BOX -->
+    <div class="guest-box guest-toggle">
+      <div>
+        <small>GUESTS</small>
+        <strong class="guest-summary">1 guest</strong>
+      </div>
+      <i class="fa-solid fa-chevron-down"></i>
+    </div>
+
+    <!-- GUEST DROPDOWN -->
+    <div class="guest-dropdown">
+      <!-- ADULTS -->
+      <div class="guest-row">
+        <div>
+          <strong>Adults</strong>
+          <small>Age 13+</small>
+        </div>
+        <div class="counter">
+          <button type="button" onclick="updateGuest('adult', -1)">−</button>
+          <span class="adult-count">1</span>
+          <button type="button" onclick="updateGuest('adult', 1)">+</button>
+        </div>
+      </div>
+
+      <!-- CHILDREN -->
+      <div class="guest-row">
+        <div>
+          <strong>Children</strong>
+          <small>Ages 2–12</small>
+        </div>
+        <div class="counter">
+          <button type="button" onclick="updateGuest('child', -1)">−</button>
+          <span class="child-count">0</span>
+          <button type="button" onclick="updateGuest('child', 1)">+</button>
+        </div>
+      </div>
+
+      <!-- INFANTS -->
+      <div class="guest-row">
+        <div>
+          <strong>Infants</strong>
+          <small>Under 2</small>
+        </div>
+        <div class="counter">
+          <button type="button" onclick="updateGuest('infant', -1)">−</button>
+          <span class="infant-count">0</span>
+          <button type="button" onclick="updateGuest('infant', 1)">+</button>
+        </div>
+      </div>
+
+      <!-- PETS -->
+      <% if (listing.petsAllowed) { %>
+      <div class="guest-row">
+        <div>
+          <strong>Pets</strong>
+          <small>Service animals only</small>
+        </div>
+        <div class="counter">
+          <button type="button" onclick="updateGuest('animals', -1)">−</button>
+          <span class="pet-count">0</span>
+          <button type="button" onclick="updateGuest('animals', 1)">+</button>
+        </div>
+      </div>
+      <% } %>
+
+      <p class="guest-note">
+        Max <%= listing.maxGuests || 5 %> guests (excluding infants). <%=
+        listing.petsAllowed ? "Pets allowed with fee." : "Pets not allowed." %>
+      </p>
+
+      <button type="button" class="close-btn" onclick="toggleGuests()">
+        Close
+      </button>
+    </div>
+
+    <!-- SUBMIT -->
+    <button type="submit" class="reserve-btn">Reserve</button>
+
+    <p class="charge-note">You won’t be charged yet</p>
+  </div>
+</form>

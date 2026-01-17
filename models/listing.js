@@ -12,6 +12,16 @@ const listingSchema = new Schema({
     url: String,
     filename: String,
   },
+  images: [
+    {
+      url: String,
+      filename: String,
+    },
+  ],
+  amenities: {
+    type: [String],
+    default: [],
+  },
   price: Number,
   location: String,
   country: String,
@@ -60,16 +70,76 @@ const listingSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  geometry: {
-    type: {
-      type: String,
-      enum: ["Point"],
-      required: true,
-    },
-    coordinates: {
-      type: [Number], // [longitude, latitude]
-      required: true,
-    },
+  // Guest and Pet Settings (Host-controlled)
+  maxGuests: {
+    type: Number,
+    default: 5,
+    min: 1,
+    max: 20,
+  },
+  maxAdults: {
+    type: Number,
+    default: 5,
+    min: 1,
+    max: 20,
+  },
+  maxChildren: {
+    type: Number,
+    default: 5,
+    min: 0,
+    max: 20,
+  },
+  petsAllowed: {
+    type: Boolean,
+    default: false,
+  },
+  petChargePerNight: {
+    type: Number,
+    default: 300,
+    min: 0,
+  },
+  extraGuestChargePerNight: {
+    type: Number,
+    default: 500,
+    min: 0,
+  },
+  freeGuests: {
+    type: Number,
+    default: 3,
+    min: 0,
+  },
+  travelCompanion: {
+    places: [
+      {
+        name: String,
+        image: String,
+        extraGuestChargePerNight: {
+          type: Number,
+          default: 500,
+          min: 0,
+        },
+        freeGuests: {
+          type: Number,
+          default: 3,
+          min: 0,
+        },
+        geometry: {
+          type: {
+            type: String,
+            enum: ["Point"],
+          },
+          coordinates: {
+            type: [Number], // [longitude, latitude]
+          },
+        },
+      },
+    ],
+    food: [
+      {
+        name: String,
+        image: String,
+      },
+    ],
   },
 });
 listingSchema.post("findOneAndDelete", async function (listing) {

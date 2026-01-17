@@ -55,8 +55,32 @@
           required
         />
       </div>
+      <div class="mb-3">
+        <label class="form-label">Mobile Number</label>
+        <input
+          type="tel"
+          name="phone"
+          class="form-control"
+          placeholder="10-digit mobile number"
+          required
+          pattern="[0-9]{10}"
+        />
+      </div>
 
       <button class="login-btn btn-success">Sign Up</button>
+
+      <!-- OR DIVIDER -->
+      <div class="text-center my-3">
+        <span class="divider">or</span>
+      </div>
+
+      <!-- GOOGLE SIGNUP BUTTON -->
+      <!-- <button
+        class="google-btn"
+        onclick="import('/js/firebase.js').then(module => module.signInWithGoogle())"
+      >
+        <i class="fab fa-google"></i> Sign up with Google
+      </button> -->
 
       <a href="/login" class="forgot-link"> Already have an account? Login </a>
     </form>

@@ -1,0 +1,503 @@
+<% layout("./layouts/boilerplate") %>
+
+<style>
+  :root {
+    --primary-color: #ff385c;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --info-color: #007bff;
+    --text-dark: #333;
+    --text-light: #666;
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --hover-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  .host-dashboard {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  .host-dashboard h3 {
+    color: var(--text-dark);
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-align: center;
+    letter-spacing: -0.5px;
+  }
+  /* Tabs */
+
+  .dashboard-tabs {
+    border: none;
+    background: transparent;
+    margin-bottom: 2rem;
+    gap: 1rem;
+    justify-content: center;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .dashboard-tabs .nav-link {
+    border: none;
+    border-radius: 20px;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    margin: 0;
+    transition: all 0.3s ease;
+    background: transparent;
+    color: var(--text-dark);
+    position: relative;
+  }
+
+  .dashboard-tabs .nav-link:hover {
+    background: rgba(254, 66, 77, 0.08);
+    color: var(--primary-color);
+  }
+
+  .dashboard-tabs .nav-link::after {
+    content: "";
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    transition: 0.3s ease;
+    transform: translateX(-50%);
+  }
+
+  .dashboard-tabs .nav-link:hover::after {
+    width: 60%;
+  }
+
+  .dashboard-tabs .nav-link.active {
+    background: rgba(254, 66, 77, 0.08) !important;
+    color: var(--primary-color) !important;
+  }
+
+  .dashboard-tabs .nav-link.active::after {
+    width: 60%;
+  }
+
+  .dashboard-tabs .nav-link.text-danger.active {
+    background: rgba(220, 53, 69, 0.1) !important;
+    color: var(--danger-color) !important;
+  }
+
+  .dashboard-tabs .nav-link.text-danger.active::after {
+    background: var(--danger-color);
+  }
+  /* Cards */
+
+  .booking-card {
+    background: white;
+    border: none;
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    position: relative;
+    border-left: 5px solid transparent;
+  }
+
+  .booking-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--hover-shadow);
+  }
+  /* Status Borders */
+
+  .booking-card.pending {
+    border-left-color: #ffc107;
+  }
+
+  .booking-card.confirmed {
+    border-left-color: var(--success-color);
+  }
+
+  .booking-card.completed {
+    border-left-color: var(--info-color);
+  }
+
+  .booking-card.cancelled {
+    border-left-color: var(--danger-color);
+  }
+
+  .card-body {
+    padding: 1.5rem;
+  }
+
+  .card-title {
+    color: var(--text-dark);
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .booking-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .detail-group p {
+    margin-bottom: 0.5rem;
+    color: var(--text-light);
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .detail-group strong {
+    color: var(--text-dark);
+    font-weight: 600;
+  }
+  /* Guest Count Styles */
+
+  .guest-counts-wrapper {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #f1f1f1;
+  }
+
+  .guest-counts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .guest-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.8rem;
+    background: rgba(255, 56, 92, 0.1);
+    color: var(--primary-color);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  .guest-badge i {
+    font-size: 0.8rem;
+  }
+  /* Footer Actions */
+
+  .card-actions-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid #f1f1f1;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: capitalize;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .status-badge.pending {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+
+  .status-badge.confirmed {
+    background-color: #d4edda;
+    color: #155724;
+  }
+
+  .status-badge.completed {
+    background-color: #cce5ff;
+    color: #004085;
+  }
+
+  .status-badge.cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+
+  .btn-group-custom {
+    display: flex;
+    gap: 0.8rem;
+  }
+
+  .btn-custom {
+    border-radius: 50px;
+    padding: 0.5rem 1.2rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    color: white;
+  }
+
+  .btn-success-custom {
+    background: linear-gradient(45deg, #28a745, #20c997);
+  }
+
+  .btn-danger-custom {
+    background: linear-gradient(45deg, #dc3545, #ff6b6b);
+  }
+
+  .btn-primary-custom {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+    color: var(--text-light);
+  }
+
+  .empty-state i {
+    font-size: 3rem;
+    color: #e9ecef;
+    margin-bottom: 1rem;
+  }
+  /* Animations */
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .tab-pane {
+    animation: fadeInUp 0.4s ease-out;
+  }
+  /* Responsive */
+
+  @media (max-width: 768px) {
+    .dashboard-tabs {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      justify-content: flex-start;
+      padding-bottom: 0;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .dashboard-tabs::-webkit-scrollbar {
+      display: none;
+    }
+    .dashboard-tabs .nav-link {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .card-actions-wrapper {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .status-badge {
+      justify-content: center;
+      width: 100%;
+    }
+    .btn-group-custom {
+      flex-direction: column;
+      width: 100%;
+    }
+    .btn-custom {
+      justify-content: center;
+      width: 100%;
+    }
+    .guest-counts {
+      justify-content: center;
+    }
+  }
+</style>
+
+<div class="host-dashboard">
+  <h3>🏠 Host Dashboard</h3>
+
+  <ul class="nav dashboard-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" data-bs-toggle="tab" href="#upcoming"
+        >Upcoming</a
+      >
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" href="#confirmed">Confirmed</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" href="#completed">Completed</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-danger" data-bs-toggle="tab" href="#cancelled"
+        >Cancelled</a
+      >
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <% const renderBookings = (list) => { %> <% if (list.length === 0) { %>
+    <div class="empty-state">
+      <i class="fas fa-calendar-times"></i>
+      <h5>No bookings found</h5>
+      <p>You don't have any bookings at the moment.</p>
+    </div>
+    <% } %> <% list.forEach(b => { %>
+    <div class="booking-card <%= b.status %>">
+      <div class="card-body">
+        <h5 class="card-title">
+          <i class="fas fa-home text-primary me-2"></i>
+          <%= b.listing.title %>
+        </h5>
+
+        <div class="booking-details">
+          <div class="detail-group">
+            <p>
+              <i class="fas fa-user text-info me-2"></i>
+              <strong>Guest:</strong>
+              <%= b.user.username %>
+            </p>
+            <p>
+              <i class="fas fa-phone text-success me-2"></i>
+              <strong>Phone:</strong> **** **** <%= b.user.phoneLast4 %>
+            </p>
+          </div>
+          <div class="detail-group">
+            <p>
+              <i class="fas fa-calendar-alt text-warning me-2"></i>
+              <strong>Dates:</strong>
+              <%= b.startDate.toDateString() %> → <%= b.endDate.toDateString()
+              %>
+            </p>
+            <p>
+              <i class="fas fa-rupee-sign text-success me-2"></i>
+              <strong>Total:</strong> ₹ <%= b.totalPrice.toLocaleString("en-IN")
+              %>
+            </p>
+          </div>
+        </div>
+
+        <!-- Guest Count Information -->
+        <% if (b.guests && (b.guests.adults > 0 || b.guests.children > 0 ||
+        b.guests.infants > 0 || b.guests.animals > 0)) { %>
+        <div class="guest-counts-wrapper">
+          <div class="guest-counts">
+            <% if (b.guests.adults > 0) { %>
+            <span class="guest-badge">
+              <i class="fas fa-user-friends text-primary me-1"></i>
+              <%= b.guests.adults %> Adult<%= b.guests.adults > 1 ? 's' : '' %>
+            </span>
+            <% } %> <% if (b.guests.children > 0) { %>
+            <span class="guest-badge">
+              <i class="fas fa-child text-info me-1"></i>
+              <%= b.guests.children %> Child<%= b.guests.children > 1 ? 'ren' :
+              '' %>
+            </span>
+            <% } %> <% if (b.guests.infants > 0) { %>
+            <span class="guest-badge">
+              <i class="fas fa-baby text-warning me-1"></i>
+              <%= b.guests.infants %> Infant<%= b.guests.infants > 1 ? 's' : ''
+              %>
+            </span>
+            <% } %> <% if (b.guests.animals > 0) { %>
+            <span class="guest-badge">
+              <i class="fas fa-paw text-danger me-1"></i>
+              <%= b.guests.animals %> Pet<%= b.guests.animals > 1 ? 's' : '' %>
+            </span>
+            <% } %>
+          </div>
+        </div>
+        <% } %>
+
+        <div class="card-actions-wrapper">
+          <span class="status-badge <%= b.status %> text-capitalize">
+            <i class="fas fa-circle me-1" style="font-size: 0.6rem"></i>
+            <%= b.status %>
+          </span>
+
+          <div class="btn-group-custom">
+            <% if (b.status === 'pending') { %>
+            <form
+              method="POST"
+              action="/profile/host/bookings/<%= b._id %>/status"
+              class="d-inline"
+            >
+              <input type="hidden" name="status" value="confirmed" />
+              <button type="submit" class="btn btn-custom btn-success-custom">
+                <i class="fas fa-check me-1"></i> Confirm Booking
+              </button>
+            </form>
+            <form
+              method="POST"
+              action="/profile/host/bookings/<%= b._id %>/status"
+              class="d-inline"
+            >
+              <input type="hidden" name="status" value="cancelled" />
+              <button
+                type="submit"
+                class="btn btn-custom btn-danger-custom"
+                onclick="return confirm('Are you sure you want to cancel this booking?')"
+              >
+                <i class="fas fa-times me-1"></i> Cancel Booking
+              </button>
+            </form>
+            <% } else if (b.status === 'confirmed') { %>
+            <form
+              method="POST"
+              action="/profile/host/bookings/<%= b._id %>/status"
+              class="d-inline"
+            >
+              <input type="hidden" name="status" value="completed" />
+              <button type="submit" class="btn btn-custom btn-primary-custom">
+                <i class="fas fa-check-circle me-1"></i> Mark as Completed
+              </button>
+            </form>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% }) %> <% } %>
+
+    <div class="tab-pane fade show active" id="upcoming">
+      <%- renderBookings(upcoming) %>
+    </div>
+
+    <div class="tab-pane fade" id="confirmed">
+      <%- renderBookings(confirmed) %>
+    </div>
+
+    <div class="tab-pane fade" id="completed">
+      <%- renderBookings(completed) %>
+    </div>
+
+    <div class="tab-pane fade" id="cancelled">
+      <%- renderBookings(cancelled) %>
+    </div>
+  </div>
+</div>

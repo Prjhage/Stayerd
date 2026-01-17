@@ -6,7 +6,6 @@
   crossorigin="anonymous"
   referrerpolicy="no-referrer"
 />
-
 <div class="login-overlay">
   <div class="login-card">
     <div class="login-header">
@@ -16,6 +15,9 @@
       ></i>
       <h2>Wanderlust</h2>
     </div>
+    <% if (error && error.length) { %>
+    <div class="alert alert-danger text-center"><%= error %></div>
+    <% } %>
 
     <form
       action="/login"
@@ -46,7 +48,25 @@
       </div>
       <button class="login-btn btn-success">Login</button>
 
-      <a href="#" class="forgot-link">Forgot Password?</a>
+      <!-- OR DIVIDER -->
+      <div class="text-center my-3">
+        <span class="divider">or</span>
+      </div>
+
+      <!-- GOOGLE LOGIN BUTTON -->
+      <button
+        class="google-btn"
+        onclick="import('./js/firebase.js').then(module => module.signInWithGoogle())"
+      >
+        <i class="fab fa-google"></i> Login with Google
+      </button>
+
+      <!-- SIGNUP LINK -->
+      <p class="text-center mt-3">
+        Don’t have an account?
+        <a href="/signup" class="fw-bold text-decoration-none">Sign up</a>
+      </p>
     </form>
   </div>
 </div>
+<script type="module" src="/js/firebase.js"></script>

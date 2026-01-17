@@ -12,6 +12,7 @@ const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 const bookingRoutes = require("./routes/bookings");
+const authRouter = require("./routes/auth.js");
 
 const session = require("express-session");
 const { default: MongoStore } = require("connect-mongo");
@@ -58,6 +59,7 @@ app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   res.locals.currUser = req.user;
+  res.locals.currentPath = req.path;
 
   // Add this function definition:
   res.locals.renderStars = (rating) => {
@@ -100,6 +102,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json()); // For parsing application/json
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 
@@ -108,6 +111,7 @@ app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
 app.use("/", bookingRoutes);
+app.use("/", authRouter);
 
 app.use((err, req, res, next) => {
   let { message = "something went wrong", statuscode = 500 } = err;

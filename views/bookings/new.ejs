@@ -1,188 +1,333 @@
 <% layout("./layouts/boilerplate") -%>
-<style>
-  .booking-container {
-    max-width: 520px;
-    margin: 2rem auto;
-    padding: 1.5rem;
-    border-radius: 14px;
-    background: #ffffff;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
-    animation: fadeSlideUp 0.5s ease;
-  }
 
-  .booking-container h3 {
-    font-weight: 600;
-    margin-bottom: 1rem;
-  }
+    <style>
+        .booking-container {
+            max-width: 520px;
+            margin: 2rem auto;
+            padding: 1.5rem;
+            border-radius: 14px;
+            background: #ffffff;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+            animation: fadeSlideUp 0.5s ease;
+        }
+        
+        .booking-container h3 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .booking-info p {
+            margin-bottom: 0.4rem;
+            color: #333;
+        }
+        
+        .booking-info span {
+            font-weight: 600;
+        }
+        
+        .guest-summary-box {
+            background: #f7f7f7;
+            border-radius: 10px;
+            padding: 0.75rem;
+            margin: 0.8rem 0;
+            font-size: 0.95rem;
+        }
+        
+        input[type="date"] {
+            border-radius: 10px;
+            padding: 0.6rem;
+        }
+        
+        .price-summary {
+            background: #fafafa;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s ease;
+        }
+        
+        .price-summary.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.4rem;
+        }
+        
+        .price-total {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .btn-confirm {
+            background: linear-gradient(135deg, #ff385c, #e61e4d);
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem;
+            font-weight: 600;
+            color: white;
+        }
+        
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 
-  .booking-info p {
-    margin-bottom: 0.4rem;
-    color: #333;
-  }
+    <div class="booking-container">
+        <h3>Confirm your booking</h3>
 
-  .booking-info span {
-    font-weight: 600;
-  }
+        <div class="booking-info">
+            <p><b>Listing:</b> <span><%= listing.title %></span></p>
+            <p>
+                <b>Price per night:</b> ₹
+                <span id="pricePerNight"><%= listing.price %></span>
+            </p>
+            <p><b>Guest:</b> <span><%= user.username %></span></p>
+        </div>
 
-  input[type="date"] {
-    border-radius: 10px;
-    padding: 0.6rem;
-    transition: border 0.3s ease, box-shadow 0.3s ease;
-  }
+        <!-- GUEST SUMMARY -->
+        <div class="guest-summary-box">
+            <strong>Guests:</strong>
+            <%= guests.adults %> Adults,
+                <%= guests.children %> Children
+                    <% if
+    (guests.infants > 0) { %>,
+                        <%= guests.infants %> Infants
+                            <% } %>
+                                <% if
+    (guests.animals > 0) { %>,
+                                    <%= guests.animals %> Pets
+                                        <% } %>
+        </div>
 
-  input[type="date"]:focus {
-    border-color: #ff385c;
-    box-shadow: 0 0 0 0.15rem rgba(255, 56, 92, 0.25);
-  }
+        <form action="/listings/<%= listing._id %>/book" method="POST">
+            <!-- HIDDEN GUEST DATA -->
+            <input type="hidden" name="adults" value="<%= guests.adults %>" />
+            <input type="hidden" name="children" value="<%= guests.children %>" />
+            <input type="hidden" name="infants" value="<%= guests.infants %>" />
+            <input type="hidden" name="animals" value="<%= guests.animals %>" />
 
-  .price-summary {
-    background: #fafafa;
-    border-radius: 12px;
-    padding: 1rem;
-    margin-top: 1rem;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.4s ease;
-  }
+            <label>Check-in</label>
+            <input type="date" name="startDate" id="startDate" required class="form-control mb-2" />
 
-  .price-summary.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
+            <label>Check-out</label>
+            <input type="date" name="endDate" id="endDate" required class="form-control mb-2" />
 
-  .price-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.4rem;
-  }
+            <!-- PRICE SUMMARY -->
+            <div id="priceSummary" class="price-summary">
+                <div class="price-row">
+                    <span>Nights</span>
+                    <span id="nights">0</span>
+                </div>
 
-  .price-total {
-    font-size: 1.1rem;
-    font-weight: 600;
-  }
+                <div class="price-row">
+                    <span>₹<%= listing.price %> × nights</span>
+                    <span>₹<span id="baseTotal">0</span></span>
+                </div>
 
-  .btn-confirm {
-    background: linear-gradient(135deg, #ff385c, #e61e4d);
-    border: none;
-    border-radius: 10px;
-    padding: 0.75rem;
-    font-weight: 600;
-    color: white;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
+                <div class="price-row">
+                    <span>Extra guests</span>
+                    <span>₹<span id="extraGuestCost">0</span></span>
+                </div>
 
-  .btn-confirm:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 10px 20px rgba(255, 56, 92, 0.4);
-  }
-  /* subtle entry animation */
+                <div class="price-row">
+                    <span>Pet fee</span>
+                    <span>₹<span id="petCost">0</span></span>
+                </div>
 
-  @keyframes fadeSlideUp {
-    from {
-      opacity: 0;
-      transform: translateY(15px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-</style>
-<div class="booking-container">
-  <h3>Confirm your booking</h3>
+                <hr />
 
-  <div class="booking-info">
-    <p><b>Listing:</b> <span><%= listing.title %></span></p>
-    <p>
-      <b>Price per night:</b> ₹<span id="pricePerNight"
-        ><%= listing.price %></span
-      >
-    </p>
-    <p><b>Guest:</b> <span><%= user.username %></span></p>
-  </div>
+                <div class="price-row">
+                    <span>Subtotal</span>
+                    <span>₹<span id="subtotal">0</span></span>
+                </div>
 
-  <form action="/listings/<%= listing._id %>/book" method="POST">
-    <label>Check-in</label>
-    <input
-      type="date"
-      name="startDate"
-      id="startDate"
-      required
-      class="form-control mb-2"
-    />
+                <div class="price-row">
+                    <span>GST (18%)</span>
+                    <span>₹<span id="gst">0</span></span>
+                </div>
 
-    <label>Check-out</label>
-    <input
-      type="date"
-      name="endDate"
-      id="endDate"
-      required
-      class="form-control mb-2"
-    />
+                <hr />
 
-    <!-- PRICE SUMMARY -->
-    <div id="priceSummary" class="price-summary">
-      <div class="price-row">
-        <span>Nights</span>
-        <span id="nights">0</span>
-      </div>
-      <div class="price-row">
-        <span>Subtotal</span>
-        <span>₹<span id="subtotal">0</span></span>
-      </div>
-      <div class="price-row">
-        <span>GST (18%)</span>
-        <span>₹<span id="gst">0</span></span>
-      </div>
-      <hr />
-      <div class="price-row price-total">
-        <span>Total</span>
-        <span>₹<span id="total">0</span></span>
-      </div>
+                <div class="price-row price-total">
+                    <span>Total</span>
+                    <span>₹<span id="total">0</span></span>
+                </div>
+
+                <p class="text-muted small mt-2">
+                    ℹ First 3 guests stay free. Extra guests and pets incur additional charges.
+                </p>
+            </div>
+            <!-- GUEST TERMS ACCEPTANCE -->
+            <div class="form-check mt-4">
+                <input class="form-check-input" type="checkbox" id="acceptGuestTerms" name="acceptGuestTerms" required />
+                <label class="form-check-label" for="acceptGuestTerms">
+        I agree to the
+        <a href="#" id="openGuestTerms" class="terms-link">
+          Guest Terms & Conditions
+        </a>
+      </label>
+                <div class="invalid-feedback">
+                    You must accept the guest terms to confirm your booking.
+                </div>
+            </div>
+
+            <button class="btn btn-confirm w-100 mt-3">Confirm & Reserve</button>
+        </form>
     </div>
 
-    <button class="btn btn-confirm w-100 mt-3">Confirm Booking</button>
-  </form>
-</div>
+    <!-- GUEST TERMS MODAL -->
+    <div class="terms-modal" id="guestTermsModal">
+        <div class="terms-content">
+            <button class="close-terms" id="closeGuestTerms">&times;</button>
 
-<script>
-  const pricePerNight = Number(
-    document.getElementById("pricePerNight").innerText
-  );
+            <h3>Guest Terms & Conditions</h3>
+            <p class="updated">Last updated: January 2026</p>
 
-  const startDateInput = document.getElementById("startDate");
-  const endDateInput = document.getElementById("endDate");
+            <div class="terms-scroll">
+                <h5>1. Booking Confirmation</h5>
+                <p>
+                    Your booking is confirmed only after successful payment and host approval.
+                </p>
 
-  const summaryBox = document.getElementById("priceSummary");
-  const nightsEl = document.getElementById("nights");
-  const subtotalEl = document.getElementById("subtotal");
-  const gstEl = document.getElementById("gst");
-  const totalEl = document.getElementById("total");
+                <h5>2. Token Amount Policy</h5>
+                <p>
+                    A token amount may be charged to reserve the property. This amount is adjusted in the final bill.
+                </p>
 
-  function calculatePrice() {
-    const start = new Date(startDateInput.value);
-    const end = new Date(endDateInput.value);
+                <h5>3. Guest Count Policy</h5>
+                <p>
+                    The first 3 guests stay free. Additional guests and pets may incur extra charges.
+                </p>
 
-    if (!startDateInput.value || !endDateInput.value || end <= start) {
-      summaryBox.classList.remove("show");
+                <h5>4. Pets & Animals</h5>
+                <p>
+                    Pets are allowed only if declared during booking and may incur a cleaning or service fee.
+                </p>
 
-      return;
-    }
+                <h5>5. Cancellation Policy</h5>
+                <p>
+                    Cancellation charges depend on the time of cancellation and the host’s policy.
+                </p>
 
-    const nights = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+                <h5>6. Refund Policy</h5>
+                <p>Refunds (if applicable) will be processed within 5–7 working days.</p>
 
-    const subtotal = nights * pricePerNight;
-    const gst = Math.round(subtotal * 0.18);
-    const total = subtotal + gst;
+                <h5>7. Property Usage</h5>
+                <p>Guests must respect the property, neighborhood, and house rules.</p>
 
-    nightsEl.innerText = nights;
-    subtotalEl.innerText = subtotal;
-    gstEl.innerText = gst;
-    totalEl.innerText = total;
+                <h5>8. Platform Responsibility</h5>
+                <p>
+                    Wanderlust is a booking platform and not responsible for host behavior or property conditions.
+                </p>
+            </div>
 
-    summaryBox.classList.add("show");
-  }
+            <button class="btn btn-dark mt-3" id="acceptGuestFromModal">
+      I Understand & Agree
+    </button>
+        </div>
+    </div>
 
-  startDateInput.addEventListener("change", calculatePrice);
-  endDateInput.addEventListener("change", calculatePrice);
-</script>
+    <script>
+        // --- CONSTANTS (FROM LISTING) ---
+        const EXTRA_GUEST_PRICE = <%= listing.extraGuestChargePerNight || 500 %>;
+        const PET_PRICE = <%= listing.petChargePerNight || 300 %>;
+        const FREE_GUESTS = <%= listing.freeGuests || 3 %>;
+
+        const pricePerNight = Number(
+            document.getElementById("pricePerNight").innerText.replace(/[^0-9]/g, "")
+        );
+
+        const guestData = {
+            adults: <%= guests.adults %>,
+            children: <%= guests.children %>,
+            animals: <%= guests.animals %>
+        };
+
+        const startDateInput = document.getElementById("startDate");
+        const endDateInput = document.getElementById("endDate");
+
+        const nightsEl = document.getElementById("nights");
+        const baseTotalEl = document.getElementById("baseTotal");
+        const extraGuestCostEl = document.getElementById("extraGuestCost");
+        const petCostEl = document.getElementById("petCost");
+        const subtotalEl = document.getElementById("subtotal");
+        const gstEl = document.getElementById("gst");
+        const totalEl = document.getElementById("total");
+        const summaryBox = document.getElementById("priceSummary");
+
+        function calculatePrice() {
+            const start = new Date(startDateInput.value);
+            const end = new Date(endDateInput.value);
+
+            if (!startDateInput.value || !endDateInput.value || end <= start) {
+                summaryBox.classList.remove("show");
+                return;
+            }
+
+            const nights = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+
+            const payingGuests = guestData.adults + guestData.children;
+            const extraGuests = Math.max(0, payingGuests - FREE_GUESTS);
+
+            const baseTotal = nights * pricePerNight;
+            const extraGuestCost = extraGuests * EXTRA_GUEST_PRICE * nights;
+            const petCost = guestData.animals * PET_PRICE * nights;
+
+            const subtotal = baseTotal + extraGuestCost + petCost;
+            const gst = Math.round(subtotal * 0.18);
+            const total = subtotal + gst;
+
+            nightsEl.innerText = nights;
+            baseTotalEl.innerText = baseTotal.toLocaleString("en-IN");
+            extraGuestCostEl.innerText = extraGuestCost.toLocaleString("en-IN");
+            petCostEl.innerText = petCost.toLocaleString("en-IN");
+            subtotalEl.innerText = subtotal.toLocaleString("en-IN");
+            gstEl.innerText = gst.toLocaleString("en-IN");
+            totalEl.innerText = total.toLocaleString("en-IN");
+
+            summaryBox.classList.add("show");
+        }
+
+        startDateInput.addEventListener("change", calculatePrice);
+        endDateInput.addEventListener("change", calculatePrice);
+    </script>
+    <script>
+        const openGuestBtn = document.getElementById("openGuestTerms");
+        const guestModal = document.getElementById("guestTermsModal");
+        const closeGuestBtn = document.getElementById("closeGuestTerms");
+        const acceptGuestBtn = document.getElementById("acceptGuestFromModal");
+        const guestCheckbox = document.getElementById("acceptGuestTerms");
+
+        openGuestBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            guestModal.classList.add("active");
+        });
+
+        closeGuestBtn.addEventListener("click", () => {
+            guestModal.classList.remove("active");
+        });
+
+        acceptGuestBtn.addEventListener("click", () => {
+            guestCheckbox.checked = true;
+            guestModal.classList.remove("active");
+        });
+
+        guestModal.addEventListener("click", (e) => {
+            if (e.target === guestModal) {
+                guestModal.classList.remove("active");
+            }
+        });
+    </script>

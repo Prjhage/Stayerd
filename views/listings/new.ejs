@@ -1,152 +1,467 @@
 <% layout("./layouts/boilerplate") -%>
 
-<body>
-  <div class="listing-overlay">
-    <div class="listing-g-card">
-      <div class="listing-header">
-        <i class="fa-solid fa-house listing-icon"></i>
-        <h2>Add Listing</h2>
+<div class="listing-overlay">
+  <div class="listing-g-card">
+    <div class="listing-header">
+      <i class="fa-solid fa-house listing-icon"></i>
+      <h2>Add Listing</h2>
+    </div>
+
+    <form
+      method="POST"
+      action="/listings"
+      class="listing-form needs-validation"
+      novalidate
+      enctype="multipart/form-data"
+    >
+      <!-- TITLE -->
+      <div class="lf-group">
+        <label>Title</label>
+        <input
+          type="text"
+          name="listing[title]"
+          class="form-control"
+          placeholder="Title"
+          required
+        />
+        <div class="invalid-feedback">Please enter a title.</div>
       </div>
 
-      <form
-        method="POST"
-        action="/listings"
-        class="listing-form needs-validation"
-        novalidate
-        enctype="multipart/form-data"
-      >
-        <!-- TITLE -->
-        <div class="lf-group">
-          <label>Title</label>
+      <!-- DESCRIPTION -->
+      <div class="lf-group">
+        <label>Description</label>
+        <textarea
+          name="listing[description]"
+          class="form-control"
+          rows="3"
+          required
+        ></textarea>
+        <div class="invalid-feedback">Please enter a description.</div>
+      </div>
+
+      <!-- IMAGE -->
+      <!-- MAIN IMAGE (REQUIRED) -->
+      <div class="lf-group">
+        <label>Main Image (Card Image)</label>
+        <input
+          type="file"
+          name="listing[image]"
+          class="form-control"
+          accept="image/*"
+          required
+        />
+        <div class="invalid-feedback">Please upload a main image.</div>
+      </div>
+
+      <!-- OPTIONAL GALLERY IMAGES -->
+      <div class="lf-group">
+        <label>Additional Images (Optional)</label>
+        <input
+          type="file"
+          name="listing[images]"
+          class="form-control"
+          accept="image/*"
+          multiple
+        />
+        <small class="text-muted">You can upload up to 5 images</small>
+      </div>
+      <div class="lf-group">
+        <label>What this place offers</label>
+
+        <div class="amenities-box">
+          <label class="amenity-item">
+            <input
+              type="checkbox"
+              name="listing[amenities]"
+              value="City skyline view"
+            />
+            City skyline view
+          </label>
+
+          <label class="amenity-item">
+            <input
+              type="checkbox"
+              name="listing[amenities]"
+              value="Garden view"
+            />
+            Garden view
+          </label>
+
+          <label class="amenity-item">
+            <input
+              type="checkbox"
+              name="listing[amenities]"
+              value="Lake access"
+            />
+            Lake access
+          </label>
+
+          <label class="amenity-item">
+            <input type="checkbox" name="listing[amenities]" value="Kitchen" />
+            Kitchen
+          </label>
+
+          <label class="amenity-item">
+            <input type="checkbox" name="listing[amenities]" value="Wifi" />
+            Wifi
+          </label>
+
+          <label class="amenity-item">
+            <input
+              type="checkbox"
+              name="listing[amenities]"
+              value="Dedicated workspace"
+            />
+            Dedicated workspace
+          </label>
+
+          <label class="amenity-item">
+            <input
+              type="checkbox"
+              name="listing[amenities]"
+              value="Free parking"
+            />
+            Free parking
+          </label>
+
+          <label class="amenity-item">
+            <input type="checkbox" name="listing[amenities]" value="Pool" />
+            Pool
+          </label>
+
+          <label class="amenity-item">
+            <input type="checkbox" name="listing[amenities]" value="TV" />
+            TV
+          </label>
+
+          <label class="amenity-item">
+            <input type="checkbox" name="listing[amenities]" value="Lift" />
+            Lift
+          </label>
+        </div>
+      </div>
+
+      <!-- PRICE & CATEGORY -->
+      <div class="lf-row">
+        <div class="lf-group half">
+          <label>Price per night</label>
           <input
-            type="text"
-            name="listing[title]"
+            type="number"
+            name="listing[price]"
             class="form-control"
-            placeholder="Title"
+            placeholder="Price"
+            min="1"
             required
           />
-          <div class="invalid-feedback">Please enter a title.</div>
+          <div class="invalid-feedback">Please enter a valid price.</div>
         </div>
 
-        <!-- DESCRIPTION -->
-        <div class="lf-group">
-          <label>Description</label>
-          <textarea
-            name="listing[description]"
-            class="form-control"
-            rows="3"
-            required
-          ></textarea>
-          <div class="invalid-feedback">Please enter a description.</div>
+        <div class="lf-group half">
+          <label>Category</label>
+          <select name="listing[category]" class="form-select" required>
+            <option value="" disabled selected>Select category</option>
+            <option value="trending">🔥 Trending</option>
+            <option value="rooms">🛏 Rooms</option>
+            <option value="iconic">🏙 Iconic Cities</option>
+            <option value="mountain">🏔 Mountain</option>
+            <option value="castles">🏰 Castles</option>
+            <option value="pools">🏊 Amazing Pools</option>
+            <option value="camping">🏕 Camping</option>
+            <option value="farms">🚜 Farms</option>
+            <option value="arctic">❄ Arctic</option>
+            <option value="domes">🧊 Domes</option>
+            <option value="boats">🚤 Boats</option>
+            <option value="forest">🌲 Forest</option>
+            <option value="lakefront">🌊 Lakefront</option>
+            <option value="beach">🏖 Beach</option>
+            <option value="urban">🏙 Urban</option>
+            <option value="countryside">🏡 Countryside</option>
+          </select>
+          <div class="invalid-feedback">Please select a category.</div>
         </div>
+      </div>
 
-        <!-- IMAGE -->
-        <div class="lf-group">
-          <label>Upload Image</label>
-          <input
-            type="file"
-            name="listing[image]"
-            class="form-control"
-            accept="image/*"
-            required
-          />
-          <div class="invalid-feedback">Please upload an image.</div>
-        </div>
+      <!-- COUNTRY -->
+      <div class="lf-group">
+        <label>Country</label>
+        <input
+          type="text"
+          name="listing[country]"
+          class="form-control"
+          placeholder="Country"
+          required
+        />
+        <div class="invalid-feedback">Please enter country name.</div>
+      </div>
 
-        <!-- PRICE & CATEGORY -->
+      <!-- LOCATION -->
+      <div class="lf-group">
+        <label>Location</label>
+        <input
+          type="text"
+          name="listing[location]"
+          class="form-control"
+          placeholder="Location"
+          required
+        />
+        <div class="invalid-feedback">Please enter location.</div>
+      </div>
+
+      <!-- GUEST AND PET SETTINGS -->
+      <div class="lf-group">
+        <h4>Guest & Pet Settings</h4>
+        <p class="text-muted">
+          Configure guest limits and pet policies for your listing
+        </p>
+
+        <!-- GUEST LIMITS -->
         <div class="lf-row">
           <div class="lf-group half">
-            <label>Price per night</label>
+            <label>Maximum Total Guests</label>
             <input
               type="number"
-              name="listing[price]"
+              name="listing[maxGuests]"
               class="form-control"
-              placeholder="Price"
+              placeholder="5"
               min="1"
+              max="20"
+              value="5"
               required
             />
-            <div class="invalid-feedback">Please enter a valid price.</div>
+            <small class="text-muted"
+              >Total guests allowed (adults + children)</small
+            >
           </div>
 
           <div class="lf-group half">
-            <label>Category</label>
-            <select name="listing[category]" class="form-select" required>
-              <option value="" disabled selected>Select category</option>
-              <option value="trending">🔥 Trending</option>
-              <option value="rooms">🛏 Rooms</option>
-              <option value="iconic">🏙 Iconic Cities</option>
-              <option value="mountain">🏔 Mountain</option>
-              <option value="castles">🏰 Castles</option>
-              <option value="pools">🏊 Amazing Pools</option>
-              <option value="camping">🏕 Camping</option>
-              <option value="farms">🚜 Farms</option>
-              <option value="arctic">❄ Arctic</option>
-              <option value="domes">🧊 Domes</option>
-              <option value="boats">🚤 Boats</option>
-              <option value="forest">🌲 Forest</option>
-              <option value="lakefront">🌊 Lakefront</option>
-              <option value="beach">🏖 Beach</option>
-              <option value="urban">🏙 Urban</option>
-              <option value="countryside">🏡 Countryside</option>
-            </select>
-            <div class="invalid-feedback">Please select a category.</div>
+            <label>Maximum Adults</label>
+            <input
+              type="number"
+              name="listing[maxAdults]"
+              class="form-control"
+              placeholder="5"
+              min="1"
+              max="20"
+              value="5"
+              required
+            />
+            <small class="text-muted">Maximum adults allowed</small>
           </div>
         </div>
 
-        <!-- COUNTRY -->
-        <div class="lf-group">
-          <label>Country</label>
-          <input
-            type="text"
-            name="listing[country]"
-            class="form-control"
-            placeholder="Country"
-            required
-          />
-          <div class="invalid-feedback">Please enter country name.</div>
+        <div class="lf-row">
+          <div class="lf-group half">
+            <label>Maximum Children</label>
+            <input
+              type="number"
+              name="listing[maxChildren]"
+              class="form-control"
+              placeholder="5"
+              min="0"
+              max="20"
+              value="5"
+              required
+            />
+            <small class="text-muted"
+              >Maximum children allowed (ages 2-12)</small
+            >
+          </div>
+
+          <div class="lf-group half">
+            <label>Free Guests</label>
+            <input
+              type="number"
+              name="listing[freeGuests]"
+              class="form-control"
+              placeholder="3"
+              min="0"
+              max="20"
+              value="3"
+              required
+            />
+            <small class="text-muted"
+              >Number of guests included in base price</small
+            >
+          </div>
         </div>
 
-        <!-- LOCATION -->
-        <div class="lf-group">
-          <label>Location</label>
-          <input
-            type="text"
-            name="listing[location]"
-            class="form-control"
-            placeholder="Location"
-            required
-          />
-          <div class="invalid-feedback">Please enter location.</div>
+        <!-- PET SETTINGS -->
+        <div class="lf-row">
+          <div class="lf-group half">
+            <label>Pets Allowed</label>
+            <select name="listing[petsAllowed]" class="form-select" required>
+              <option value="false" selected>No</option>
+              <option value="true">Yes</option>
+            </select>
+            <small class="text-muted"
+              >Do you allow pets at your property?</small
+            >
+          </div>
+
+          <div class="lf-group half">
+            <label>Pet Charge per Night (₹)</label>
+            <input
+              type="number"
+              name="listing[petChargePerNight]"
+              class="form-control"
+              placeholder="300"
+              min="0"
+              value="300"
+              required
+            />
+            <small class="text-muted">Charge per pet per night</small>
+          </div>
         </div>
 
-        <!-- SUBMIT -->
-        <button type="submit" class="listing-submit-btn">ADD</button>
+        <!-- EXTRA GUEST CHARGE -->
+        <div class="lf-group">
+          <label>Extra Guest Charge per Night (₹)</label>
+          <input
+            type="number"
+            name="listing[extraGuestChargePerNight]"
+            class="form-control"
+            placeholder="500"
+            min="0"
+            value="500"
+            required
+          />
+          <small class="text-muted"
+            >Charge for each additional guest beyond free guests</small
+          >
+        </div>
+      </div>
 
-        <br /><br />
-      </form>
-    </div>
+      <!-- TERMS & CONDITIONS ACCEPTANCE -->
+      <div class="form-check mt-4">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="acceptTerms"
+          name="listing[acceptHostTerms]"
+          value="true"
+          required
+        />
+        <label class="form-check-label" for="acceptTerms">
+          I agree to the
+          <a href="#" id="openTerms" class="terms-link">
+            Host Terms & Conditions
+          </a>
+        </label>
+        <div class="invalid-feedback">
+          You must accept the terms to create a listing.
+        </div>
+      </div>
+
+      <!-- SUBMIT -->
+      <button type="submit" class="listing-submit-btn">ADD</button>
+
+      <br /><br />
+    </form>
   </div>
+</div>
 
-  <!-- BOOTSTRAP VALIDATION SCRIPT -->
-  <script>
-    (() => {
-      "use strict";
+<!-- TERMS MODAL -->
+<div class="terms-modal" id="termsModal">
+  <div class="terms-content">
+    <button class="close-terms" id="closeTerms">&times;</button>
 
-      const forms = document.querySelectorAll(".needs-validation");
+    <h3>Host Terms & Conditions</h3>
+    <p class="updated">Last updated: January 2026</p>
 
-      Array.from(forms).forEach((form) => {
-        form.addEventListener(
-          "submit",
-          (event) => {
-            if (!form.checkValidity()) {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-            form.classList.add("was-validated");
-          },
-          false
-        );
-      });
-    })();
-  </script>
-</body>
+    <div class="terms-scroll">
+      <h5>1. Hosting Eligibility</h5>
+      <p>
+        You must be legally authorized to host the property listed on
+        Wanderlust.
+      </p>
+
+      <h5>2. Accurate Listings</h5>
+      <p>
+        All listing details, images, and amenities must be accurate and
+        truthful.
+      </p>
+
+      <h5>3. Pricing & Availability</h5>
+      <p>
+        Hosts are responsible for maintaining accurate pricing and availability.
+      </p>
+
+      <h5>4. Token & Payment Policy</h5>
+      <p>
+        Token amounts are adjusted in the final settlement. No offline payments
+        allowed.
+      </p>
+
+      <h5>5. Cancellations</h5>
+      <p>Host cancellations may result in penalties or account suspension.</p>
+
+      <h5>6. Refund Policy</h5>
+      <p>
+        Refund eligibility depends on cancellation timing and booking policy.
+      </p>
+
+      <h5>7. Safety & Cleanliness</h5>
+      <p>Hosts must provide a safe, clean, and hygienic environment.</p>
+
+      <h5>8. Platform Rights</h5>
+      <p>
+        Wanderlust reserves the right to remove listings violating policies.
+      </p>
+    </div>
+
+    <button class="btn btn-dark mt-3" id="acceptFromModal">
+      I Understand & Agree
+    </button>
+  </div>
+</div>
+
+<!-- BOOTSTRAP VALIDATION SCRIPT -->
+<script>
+  (() => {
+    "use strict";
+
+    const forms = document.querySelectorAll(".needs-validation");
+
+    Array.from(forms).forEach((form) => {
+      form.addEventListener(
+        "submit",
+        (event) => {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add("was-validated");
+        },
+        false
+      );
+    });
+  })();
+</script>
+<script>
+  const openBtn = document.getElementById("openTerms");
+  const modal = document.getElementById("termsModal");
+  const closeBtn = document.getElementById("closeTerms");
+  const acceptBtn = document.getElementById("acceptFromModal");
+  const checkbox = document.getElementById("acceptTerms");
+
+  openBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    modal.classList.add("active");
+  });
+
+  closeBtn.addEventListener("click", () => {
+    modal.classList.remove("active");
+  });
+
+  acceptBtn.addEventListener("click", () => {
+    checkbox.checked = true;
+    modal.classList.remove("active");
+  });
+
+  // Close modal on outside click
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.classList.remove("active");
+    }
+  });
+</script>

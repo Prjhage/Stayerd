@@ -25,6 +25,39 @@
     align-items: center;
     justify-content: center;
     font-size: 1.4rem;
+    object-fit: cover;
+  }
+
+  .avatar-upload {
+    position: relative;
+    cursor: pointer;
+    border-radius: 50%;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+  }
+
+  .avatar-upload:hover {
+    transform: scale(1.05);
+  }
+
+  .avatar-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    color: white;
+    font-size: 1.2rem;
+  }
+
+  .avatar-upload:hover .avatar-overlay {
+    opacity: 1;
   }
 
   .profile-tabs {
@@ -175,10 +208,48 @@
 <div class="profile-container">
   <!-- USER HEADER -->
   <div class="profile-header">
-    <div class="avatar"><i class="fa-solid fa-user"></i></div>
+    <div class="avatar-upload">
+      <% if (user.avatar && typeof user.avatar === 'object' && user.avatar.url)
+      { %>
+      <img src="<%= user.avatar.url %>" alt="Profile Picture" class="avatar" />
+      <% } else if (user.avatar && typeof user.avatar === 'string') { %>
+      <img src="<%= user.avatar %>" alt="Profile Picture" class="avatar" />
+      <% } else { %>
+      <div
+        class="avatar"
+        style="
+          background: #222;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.4rem;
+        "
+      >
+        <i class="fa-solid fa-user"></i>
+      </div>
+      <% } %>
+      <div class="avatar-overlay">
+        <i class="fa-solid fa-camera"></i>
+      </div>
+      <form
+        action="/profile/photo"
+        method="POST"
+        enctype="multipart/form-data"
+        style="display: none"
+      >
+        <input
+          type="file"
+          name="avatar"
+          accept="image/*"
+          onchange="this.form.submit()"
+        />
+      </form>
+    </div>
     <div>
       <h3><%= user.username %></h3>
       <p><%= user.email %></p>
+      <small class="text-muted">Click avatar to change profile photo</small>
     </div>
   </div>
 
@@ -214,29 +285,65 @@
     <% } %>
 
     <div class="grid">
-      <% bookings.forEach(b => { %>
+      <% bookings.forEach(b => { %> <% if (b.listing) { %>
       <div class="card">
         <img src="<%= b.listing.image.url %>" />
         <h5><%= b.listing.title %></h5>
+
         <p>
           <%= b.startDate.toDateString() %> → <%= b.endDate.toDateString() %>
         </p>
+
         <p class="price">₹ <%= b.totalPrice %></p>
 
+        <!-- Booking Status Badge -->
+        <div class="mb-2">
+          <span class="badge bg-secondary text-capitalize">
+            <%= b.status %>
+          </span>
+        </div>
+
+        <!-- Weather Preview on Card -->
+        <% if (b.travelCompanion && b.travelCompanion.weather &&
+        b.travelCompanion.weather.temp && b.travelCompanion.weather.temp !==
+        'N/A') { %>
+        <p style="font-size: 0.95rem; margin-bottom: 0.5rem; color: #444">
+          <i class="fa-solid fa-cloud-sun text-primary"></i>
+          <strong><%= b.travelCompanion.weather.temp %></strong> • <%=
+          b.travelCompanion.weather.condition %>
+        </p>
+        <% } %>
+
+        <!-- ✅ ADD SMART TRAVEL COMPANION HERE -->
+        <% if (b.travelCompanion) { %>
+        <button
+          type="button"
+          class="btn btn-outline-primary btn-sm mt-2"
+          data-bs-toggle="modal"
+          data-bs-target="#aiModal-<%= b._id %>"
+        >
+          ✨ View AI Plan
+        </button>
+        <% } %>
+
+        <!-- EXISTING ACTION BUTTONS -->
         <div class="booking-card-actions">
           <a href="/bookings/<%= b._id %>/pdf" class="btn btn-dark">
             Download Invoice
           </a>
 
           <div class="danger-zone">
-            <form action="/bookings/<%=b ._id %>?_method=DELETE" method="POST">
+            <form action="/bookings/<%= b._id %>?_method=DELETE" method="POST">
               <button class="btn btn-cancel">Cancel Booking</button>
             </form>
           </div>
-          <a href="/listings/<%=b.listing._id %>" class="btn btn-info">View</a>
+
+          <a href="/listings/<%= b.listing._id %>" class="btn btn-info">
+            View
+          </a>
         </div>
       </div>
-      <% }) %>
+      <% } %> <% }) %>
     </div>
   </div>
 
@@ -274,6 +381,112 @@
   </div>
 </div>
 
+<!-- AI PLAN MODALS -->
+<% bookings.forEach(b => { %> <% if (b.travelCompanion) { %>
+
+<div class="modal fade" id="aiModal-<%= b._id %>" tabindex="-1">
+  <div
+    class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
+  >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">🧭 Smart Travel Companion</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <!-- WEATHER -->
+        <% if (b.travelCompanion.weather?.temp) { %>
+        <div class="alert alert-info mb-4">
+          🌤 <strong>Weather:</strong>
+          <%= b.travelCompanion.weather.temp %> | <%=
+          b.travelCompanion.weather.condition %> | Humidity: <%=
+          b.travelCompanion.weather.humidity %>
+        </div>
+        <% } %>
+
+        <!-- PLACES -->
+        <% if (b.listing.travelCompanion && b.listing.travelCompanion.places &&
+        b.listing.travelCompanion.places.length) { %>
+        <h5 class="text-primary mb-3">📍 Places to Visit</h5>
+        <div class="row g-3 mb-4">
+          <% b.listing.travelCompanion.places.forEach(p => { %>
+          <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+              <img
+                src="<%= p.image || '/images/placeholder.jpg' %>"
+                class="card-img-top"
+                style="height: 180px; object-fit: cover"
+              />
+              <div class="card-body text-center">
+                <h6 class="fw-bold"><%= p.name %></h6>
+              </div>
+            </div>
+          </div>
+          <% }) %>
+        </div>
+        <% } %>
+
+        <!-- FOOD -->
+        <% if (b.listing.travelCompanion && b.listing.travelCompanion.food &&
+        b.listing.travelCompanion.food.length) { %>
+        <h5 class="text-primary mb-3">🍽 Local Food</h5>
+        <div class="row g-3 mb-4">
+          <% b.listing.travelCompanion.food.forEach(f => { %>
+          <div class="col-md-3">
+            <div class="card shadow-sm h-100">
+              <img
+                src="<%= f.image || '/images/placeholder-food.jpg' %>"
+                class="card-img-top"
+                style="height: 160px; object-fit: cover"
+              />
+              <div class="card-body text-center">
+                <h6 class="fw-bold"><%= f.name %></h6>
+              </div>
+            </div>
+          </div>
+          <% }) %>
+        </div>
+        <% } %>
+
+        <!-- DAY PLAN -->
+        <% if (b.travelCompanion.plan?.length) { %>
+        <h5 class="text-primary mb-3">🗓 Day-wise Itinerary</h5>
+        <ul class="list-group">
+          <% b.travelCompanion.plan.forEach(day => { %>
+          <li class="list-group-item"><%= day %></li>
+          <% }) %>
+        </ul>
+        <% } %>
+        <h6 class="text-primary mt-3">
+          <i class="fa-solid fa-wallet"></i> Daily Budget Estimate
+        </h6>
+
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            🍽 Food: <%= b.travelCompanion.budget.food %>
+          </li>
+          <li class="list-group-item">
+            🚕 Transport: <%= b.travelCompanion.budget.transport %>
+          </li>
+          <li class="list-group-item">
+            🎟 Attractions: <%= b.travelCompanion.budget.attractions %>
+          </li>
+          <li class="list-group-item fw-bold">
+            📊 Total / day: <%= b.travelCompanion.budget.dailyTotal %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% } %> <% }) %>
+
 <script>
   document.querySelectorAll(".tab-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -287,4 +500,12 @@
       document.getElementById(btn.dataset.tab).classList.add("active");
     });
   });
+
+  // Profile photo upload functionality
+  document
+    .querySelector(".avatar-upload")
+    .addEventListener("click", function () {
+      const fileInput = this.querySelector('input[type="file"]');
+      fileInput.click();
+    });
 </script>

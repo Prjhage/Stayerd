@@ -1,152 +1,501 @@
 <% layout("./layouts/boilerplate") -%>
-<script>
-  const mapToken = "<%=process.env.MAP_TOKEN%>";
-  const listing = <%- JSON.stringify(listing) %>;
-</script>
+    <script>
+        const mapToken = "<%=process.env.MAP_TOKEN%>";
+        const listing = <%- JSON.stringify(listing) %>;
+    </script>
 
-<div class="row mt-3">
-  <div class="col-8 offset-2">
-    <h3><%= listing.title %></h3>
-  </div>
-  <div class="card col-8 offset-2 show-card">
-    <img
-      src="<%= listing.image?.url %>"
-      class="card-img-top show-img mt-2"
-      alt="listing_image"
-      onerror="this.onerror=null; this.src='/images/fallback.jpg';"
-    />
-    <div class="card-body">
-      <p class="card-text">
-        <i>
-          <% if (listing.Owner) { %> Owned By <%= listing.Owner.username %> <% }
-          else { %> Owned By Unknown <% } %>
-        </i>
-      </p>
+    <div class="row mt-3">
+        <div class="col-lg-8">
+            <h3>
+                <%= listing.title %>
+            </h3>
+            <div class="card show-card listing-main-card">
+                <div class="listing-gallery">
+                    <img src="<%= listing.image.url %>" class="main-image" />
 
-      <p class="card-text"><%= listing.description %></p>
+                    <% if (listing.images.length) { %>
+                        <div class="gallery-grid">
+                            <% listing.images.forEach(img => { %>
+                                <img src="<%= img.url %>" />
+                                <% }) %>
+                        </div>
+                        <% } %>
+                </div>
 
-      <p class="card-text">
-        &#8377; <%= listing.price.toLocaleString("en-IN") %> /night
-      </p>
-      <p class="card-text"><%=listing.category%></p>
+                <div class="card-body">
+                    <div class="listing-details-container">
+                        <div class="listing-info info-card">
+                            <p class="card-text">
+                                <%= listing.description %>
+                            </p>
 
-      <p class="card-text"><%= listing.location %></p>
+                            <p class="card-text">
+                                <%=listing.category%>
+                            </p>
 
-      <p class="card-text"><%= listing.country %></p>
-    </div>
-  </div>
-  <div class="col-8 offset-2">
-    <% if (currUser && listing.Owner && currUser._id.equals(listing.Owner._id))
-    { %>
-    <div class="btns mb-3">
-      <a
-        href="/listings/<%= listing._id %>/edit"
-        class="btn btn-dark edit-btn offset-3"
-      >
-        Edit
-      </a>
+                            <p class="card-text">
+                                Location:
+                                <%= listing.location %> ,
+                                    <%= listing.country %>
+                            </p>
+                        </div>
+                        <% if (currUser && listing.Owner &&
+          currUser._id.equals(listing.Owner._id)) { %>
+                            <div class="listing-actions">
+                                <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark edit-btn">
+              Edit
+            </a>
 
-      <form
-        action="/listings/<%= listing._id %>?_method=DELETE"
-        method="POST"
-        class="d-inline"
-      >
-        <button class="btn btn-dark offset-5">Delete</button>
-      </form>
-    </div>
-    <% } %>
-  </div>
+                                <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST" class="d-inline">
+                                    <button class="btn btn-dark">Delete</button>
+                                </form>
+                            </div>
+                            <% } %>
+                    </div>
+                </div>
+            </div>
 
-  <div class="col-8 offset-2 mt-3">
-    <% if (currUser && listing.Owner && !currUser._id.equals(listing.Owner._id)
-    ){ %>
-    <a href="/listings/<%= listing._id %>/book" class="btn btn-light w-100">
-      Reserve
-    </a>
-    <hr />
-    <h4>Leave a Review</h4>
+            <% if (listing.amenities && listing.amenities.length > 0) { %>
+                <div class="amenities-card p-3 border rounded shadow-sm bg-white mt-3">
+                    <h4>What this place offers</h4>
 
-    <form
-      action="/listings/<%= listing._id %>/reviews"
-      method="POST"
-      novalidate
-    >
-      <label for="rating" class="form-label">Rating</label>
+                    <% var amenityMap = {}; amenityMap["City skyline view"] = "fa-city";
+      amenityMap["Garden view"] = "fa-tree"; amenityMap["Lake access"] =
+      "fa-water"; amenityMap["Kitchen"] = "fa-utensils"; amenityMap["Wifi"] =
+      "fa-wifi"; amenityMap["Dedicated workspace"] = "fa-briefcase";
+      amenityMap["Free parking"] = "fa-car"; amenityMap["Pool"] =
+      "fa-person-swimming"; amenityMap["TV"] = "fa-tv"; amenityMap["Lift"] =
+      "fa-elevator"; %>
 
-      <fieldset class="starability-slot">
-        <input
-          type="radio"
-          id="no-rate"
-          class="input-no-rate"
-          name="review[rating]"
-          value="0"
-          checked
-        />
+                        <div class="amenities-grid">
+                            <% for (var i = 0; i < listing.amenities.length; i++) { %>
+                                <% var
+        amenity = listing.amenities[i]; var icon = amenityMap[amenity] ||
+        "fa-check"; %>
+                                    <div class="amenity-item">
+                                        <i class="fa-solid <%= icon %>"></i>
+                                        <span><%= amenity %></span>
+                                    </div>
+                                    <% } %>
+                        </div>
+                </div>
+                <% } %>
+                    <% if (currUser && listing.Owner &&
+    !currUser._id.equals(listing.Owner._id) ){ %>
+                        <hr />
+                        <h4>Leave a Review</h4>
 
-        <input type="radio" id="rate-1" name="review[rating]" value="1" />
-        <label for="rate-1">1 star</label>
+                        <form action="/listings/<%= listing._id %>/reviews" method="POST" novalidate>
+                            <label for="rating" class="form-label">Rating</label>
 
-        <input type="radio" id="rate-2" name="review[rating]" value="2" />
-        <label for="rate-2">2 stars</label>
+                            <fieldset class="starability-slot">
+                                <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked />
 
-        <input type="radio" id="rate-3" name="review[rating]" value="3" />
-        <label for="rate-3">3 stars</label>
+                                <input type="radio" id="rate-1" name="review[rating]" value="1" />
+                                <label for="rate-1">1 star</label>
 
-        <input type="radio" id="rate-4" name="review[rating]" value="4" />
-        <label for="rate-4">4 stars</label>
+                                <input type="radio" id="rate-2" name="review[rating]" value="2" />
+                                <label for="rate-2">2 stars</label>
 
-        <input type="radio" id="rate-5" name="review[rating]" value="5" />
-        <label for="rate-5">5 stars</label>
-      </fieldset>
+                                <input type="radio" id="rate-3" name="review[rating]" value="3" />
+                                <label for="rate-3">3 stars</label>
 
-      <div class="mb-3 mt-3">
-        <label for="comment" class="form-label">Comments</label>
-        <textarea
-          name="review[comment]"
-          id="comment"
-          cols="30"
-          rows="4"
-          class="form-control"
-          required
-        ></textarea>
-      </div>
+                                <input type="radio" id="rate-4" name="review[rating]" value="4" />
+                                <label for="rate-4">4 stars</label>
 
-      <button class="btn btn-outline-dark">Submit</button>
-    </form>
+                                <input type="radio" id="rate-5" name="review[rating]" value="5" />
+                                <label for="rate-5">5 stars</label>
+                            </fieldset>
 
-    <hr />
-    <% } %> <% if(listing.reviews.length > 0) {%>
-    <div class="row">
-      <h4>All Reviews</h4>
-      <% for (let review of listing.reviews) { %>
-      <div class="card col-5 ms-3 mb-3">
-        <div class="card-body">
-          <h5 class="card-title">@ <%= review.author.username %></h5>
-          <p class="card-text" type="date">
-            <%=review.createdAt.toDateString()%>
-          </p>
-          <p
-            class="starability-result card-text"
-            data-rating="<%= review.rating %>"
-          ></p>
-          <p class="card-text"><%= review.comment %></p>
-          <form
-            class="mb-3"
-            method="POST"
-            action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
-          >
-            <button class="btn btn-sm btn-dark">Delete</button>
-          </form>
+                            <div class="mb-3 mt-3">
+                                <label for="comment" class="form-label">Comments</label>
+                                <textarea name="review[comment]" id="comment" cols="30" rows="4" class="form-control" required></textarea>
+                            </div>
+
+                            <button class="btn btn-outline-dark">Submit</button>
+                        </form>
+                        <hr />
+                        <% } %>
+                            <% if (listing.reviews && listing.reviews.length > 0) { %>
+                                <div class="mt-4">
+                                    <h4 class="mb-4">All Reviews</h4>
+                                    <div class="row">
+                                        <% for (var i = 0; i < listing.reviews.length; i++) { var review =
+        listing.reviews[i]; %>
+                                            <div class="col-md-6 mb-4">
+                                                <div class="review-card">
+                                                    <div class="review-header">
+                                                        <img src="<%= review.author.avatar ? review.author.avatar : '/images/default-user.png' %>" class="review-avatar" alt="user" />
+                                                        <div>
+                                                            <strong><%= review.author.username %></strong><br />
+                                                            <small class="text-muted">
+                  <%= Math.max(1, new Date().getFullYear() - new
+                  Date(review.createdAt).getFullYear()) %> years on Wanderlust
+                </small>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="review-meta">
+                                                        <span class="stars">
+                <% for (var s = 0; s < review.rating; s++) { %>★<% } %>
+              </span>
+                                                        <small class="text-muted ms-2">
+                <%= review.createdAt.toDateString() %>
+              </small>
+                                                    </div>
+
+                                                    <p class="review-text">
+                                                        <%= review.comment.length > 140 ? review.comment.slice(0, 140) +
+              "..." : review.comment %>
+                                                    </p>
+
+                                                    <% if (review.comment.length > 140) { %>
+                                                        <a href="#" class="show-more">Show more</a>
+                                                        <% } %>
+                                                            <% if (currUser && review.author._id.equals(currUser._id)) {
+            %>
+                                                                <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+                                                                    <button class="btn btn-sm btn-outline-dark mt-2">Delete</button>
+                                                                </form>
+                                                                <% } %>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                    </div>
+                                </div>
+                                <% } %>
+
+                                    <div class="nearby-section mb-3 mt-3">
+                                        <h4>🏘️ Around this place</h4>
+                                        <% if (!nearbyPlaces || nearbyPlaces.length === 0) { %>
+                                            <p class="text-muted">
+                                                Nearby places are not available for this location.
+                                                <a href="https://www.google.com/maps/search/?api=1&query=<%= encodeURIComponent(listing.location) %>" target="_blank">
+          Explore on Google Maps →
+        </a>
+                                            </p>
+                                            <% } else { %>
+                                                <div class="row g-3">
+                                                    <% nearbyPlaces.forEach(p => { %>
+                                                        <div class="col-md-4 col-sm-6">
+                                                            <div class="card h-100 shadow-sm">
+                                                                <img src="<%= p.image %>" class="card-img-top" style="height: 140px; object-fit: cover" alt="<%= p.name %>" />
+                                                                <div class="card-body p-2">
+                                                                    <h6 class="card-title text-truncate" title="<%= p.name %>">
+                                                                        <%= p.name %>
+                                                                    </h6>
+                                                                    <p class="card-text text-muted small mb-2">
+                                                                        <%= p.type %>
+                                                                    </p>
+                                                                    <a href="https://www.google.com/maps?q=<%= p.lat %>,<%= p.lng %>" target="_blank" class="btn btn-sm btn-outline-primary w-100">View on Map</a
+              >
+            </div>
+          </div>
         </div>
+        <% }) %>
       </div>
       <% } %>
     </div>
-    <%}%>
-  </div>
-  <div class="col-8 offset-2 mb-3">
-    <h3>Where you'll be</h3>
-    <div id="map"></div>
-  </div>
-</div>
 
-<script src="/js/map.js"></script>
+    <% if (travelCompanion && ((travelCompanion.places &&
+    travelCompanion.places.length > 0) || (travelCompanion.food &&
+    travelCompanion.food.length > 0))) { %>
+    <div class="whats-new-card p-3 border rounded shadow-sm bg-white mb-3">
+      <h5 class="mb-3">✨ What’s new here</h5>
+
+      <% if (travelCompanion.places && travelCompanion.places.length > 0) { %>
+      <h6 class="text-primary">📍 Places to Visit</h6>
+      <div class="row g-2 mb-3">
+        <% travelCompanion.places.forEach(p => { %>
+        <div class="col-lg-4 col-md-4 col-sm-6">
+          <div class="card h-100 border shadow-sm">
+            <img
+              src="<%= p.image || '/images/placeholder.jpg' %>"
+              class="card-img-top p-2 rounded"
+              style="height: 150px; object-fit: cover"
+              alt="<%= p.name %>"
+            />
+            <div class="card-body p-2 text-center">
+              <a
+                href="https://www.google.com/maps?q=<%= p.name %>"
+                target="_blank"
+                class="text-decoration-none text-dark"
+              >
+                <small class="fw-bold"><%= p.name %></small>
+              </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <% }) %>
+                                                </div>
+                                                <% } %>
+                                                    <% if (travelCompanion.food && travelCompanion.food.length > 0) {
+      %>
+                                                        <h6 class="text-primary">🍽️ Local Food</h6>
+                                                        <div class="row g-2">
+                                                            <% travelCompanion.food.forEach(f => { %>
+                                                                <div class="col-lg-4 col-md-4 col-sm-6">
+                                                                    <div class="card h-100 border shadow-sm">
+                                                                        <img src="<%= f.image || '/images/placeholder-food.jpg' %>" class="card-img-top p-2 rounded" style="height: 150px; object-fit: cover" alt="<%= f.name %>" />
+                                                                        <div class="card-body p-2 text-center">
+                                                                            <small class="fw-bold"><%= f.name %></small>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <% }) %>
+                                                        </div>
+                                                        <% } %>
+                                    </div>
+                                    <% } %>
+
+                                        <h3>Where you'll be</h3>
+                                        <div class="listing-map col-12 mt-5 px-0">
+                                            <iframe src="https://www.google.com/maps?q=<%= encodeURIComponent(`${listing.location}, ${listing.country}`) %>&z=14&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="width: 100%; height: 420px; border: 0; border-radius: 16px"></iframe>
+                                        </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="sidebar-sticky">
+                <div class="d-none d-md-block">
+                    <%- include("../partials/reserveCard") %>
+                </div>
+                <div class="host-sidebar-card">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="position-relative">
+                            <img src="/images/default-user.png" style="
+                width: 56px;
+                height: 56px;
+                border-radius: 50%;
+                object-fit: cover;
+              " alt="Host" />
+                            <span class="position-absolute bottom-0 end-0 bg-danger text-white rounded-circle d-flex align-items-center justify-content-center" style="
+                width: 18px;
+                height: 18px;
+                font-size: 10px;
+                border: 2px solid white;
+              ">
+              <i class="fa-solid fa-check"></i>
+            </span>
+                        </div>
+                        <div>
+                            <h5 class="m-0">
+                                <%= listing.Owner.username %>
+                            </h5>
+                            <small class="text-muted">Host</small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between text-center border-top border-bottom py-3 mb-3">
+                        <div>
+                            <strong class="d-block"><%= listing.reviews.length %></strong>
+                            <small style="font-size: 0.8rem">Reviews</small>
+                        </div>
+                        <div class="border-start border-end px-3">
+                            <strong class="d-block"><%= listing.avgRating.toFixed(2) %>★</strong
+            >
+            <small style="font-size: 0.8rem">Rating</small>
+          </div>
+          <div>
+            <strong class="d-block">
+              <%= Math.max(1, new Date().getFullYear() - new
+              Date(listing.Owner.createdAt).getFullYear()) %>
+            </strong>
+                            <small style="font-size: 0.8rem">Years</small>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <small class="text-muted d-block mb-1">Response rate: <strong>97%</strong></small
+          >
+          <small class="text-muted d-block">Responds within an hour</small>
+                    </div>
+
+                    <button class="btn btn-outline-dark w-100 rounded-pill">
+          Message host
+        </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mobile-reserve-bar d-md-none">
+        <div class="mobile-price">
+            ₹
+            <%= listing.price.toLocaleString("en-IN") %> / night
+        </div>
+        <button class="mobile-reserve-btn" onclick="openMobileReserve()">
+    Reserve
+  </button>
+    </div>
+
+    <div class="mobile-reserve-drawer d-md-none" id="mobileReserveDrawer">
+        <div class="drawer-header">
+            <button class="close-drawer" onclick="closeMobileReserve()">✕</button>
+            <h4>Reserve</h4>
+        </div>
+        <div class="drawer-content">
+            <%- include("../partials/reserveCard") %>
+        </div>
+    </div>
+
+    <script src="/js/map.js"></script>
+    <script>
+        const MAX_PAYING_GUESTS =
+            listing && listing.maxGuests ? listing.maxGuests : 5;
+        const FREE_GUESTS = listing && listing.freeGuests ? listing.freeGuests : 3;
+        const EXTRA_PRICE_PER_GUEST =
+            listing && listing.extraGuestChargePerNight ?
+            listing.extraGuestChargePerNight :
+            500;
+        const ANIMAL_PRICE_PER_NIGHT =
+            listing && listing.petChargePerNight ? listing.petChargePerNight : 300;
+        const PETS_ALLOWED =
+            listing && listing.petsAllowed ? listing.petsAllowed : false;
+
+        const guests = {
+            adult: 1,
+            child: 0,
+            infant: 0,
+            animals: 0,
+        };
+
+        function totalPayingGuests() {
+            return guests.adult + guests.child;
+        }
+
+        function updateGuest(type, delta) {
+            const newValue = guests[type] + delta;
+            if (newValue < 0) return;
+            if (type === "adult" && newValue < 1) return;
+            if (
+                (type === "adult" || type === "child") &&
+                totalPayingGuests() + delta > MAX_PAYING_GUESTS
+            ) {
+                return;
+            }
+
+            guests[type] = newValue;
+            updateGuestUI();
+            updatePrice();
+            syncHiddenInputs();
+        }
+
+        function updateGuestUI() {
+            document
+                .querySelectorAll(".adult-count")
+                .forEach((el) => (el.innerText = guests.adult));
+            document
+                .querySelectorAll(".child-count")
+                .forEach((el) => (el.innerText = guests.child));
+            document
+                .querySelectorAll(".infant-count")
+                .forEach((el) => (el.innerText = guests.infant));
+            document
+                .querySelectorAll(".pet-count")
+                .forEach((el) => (el.innerText = guests.animals));
+
+            const paying = totalPayingGuests();
+            let summary = paying === 1 ? "1 guest" : `${paying} guests`;
+            if (guests.infant > 0) {
+                summary += `, ${guests.infant} infant${guests.infant > 1 ? "s" : ""}`;
+            }
+            if (guests.animals > 0) {
+                summary += `, ${guests.animals} pet${guests.animals > 1 ? "s" : ""}`;
+            }
+            document
+                .querySelectorAll(".guest-summary")
+                .forEach((el) => (el.innerText = summary));
+        }
+
+        function updatePrice() {
+            const basePriceEl = document.querySelector(".base-price");
+            if (!basePriceEl) return;
+            const basePrice = Number(basePriceEl.value);
+
+            const payingGuests = totalPayingGuests();
+            const extraGuests = Math.max(0, payingGuests - FREE_GUESTS);
+            const extraGuestCost = extraGuests * EXTRA_PRICE_PER_GUEST;
+            const animalCost = guests.animals * ANIMAL_PRICE_PER_NIGHT;
+            const finalPrice = basePrice + extraGuestCost + animalCost;
+
+            document.querySelectorAll(".final-price").forEach((el) => {
+                el.innerText = `₹${finalPrice.toLocaleString("en-IN")}`;
+            });
+        }
+
+        function syncHiddenInputs() {
+            document
+                .querySelectorAll(".input-adults")
+                .forEach((el) => (el.value = guests.adult));
+            document
+                .querySelectorAll(".input-children")
+                .forEach((el) => (el.value = guests.child));
+            document
+                .querySelectorAll(".input-infants")
+                .forEach((el) => (el.value = guests.infant));
+            document
+                .querySelectorAll(".input-animals")
+                .forEach((el) => (el.value = guests.animals));
+        }
+
+        function toggleGuests() {
+            document
+                .querySelectorAll(".guest-dropdown")
+                .forEach((el) => el.classList.toggle("open"));
+            document
+                .querySelectorAll(".guest-toggle")
+                .forEach((el) => el.classList.toggle("open"));
+        }
+
+        document
+            .querySelectorAll(".guest-toggle")
+            .forEach((el) => el.addEventListener("click", toggleGuests));
+
+        // Initial render
+        updateGuestUI();
+        updatePrice();
+        syncHiddenInputs();
+
+        function openMobileReserve() {
+            document.getElementById("mobileReserveDrawer").classList.add("open");
+        }
+
+        function closeMobileReserve() {
+            document.getElementById("mobileReserveDrawer").classList.remove("open");
+        }
+
+        // Image Modal Functionality
+        function openImageModal(src) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = modal.querySelector('img');
+            modalImg.src = src;
+            modal.classList.add('active');
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('active');
+        }
+
+        // Add click event listeners to all images in the gallery
+        document.addEventListener('DOMContentLoaded', function() {
+            const galleryImages = document.querySelectorAll('.listing-gallery img');
+            galleryImages.forEach(img => {
+                img.addEventListener('click', function() {
+                    openImageModal(this.src);
+                });
+            });
+
+            // Close modal when clicking on it
+            const modal = document.getElementById('imageModal');
+            if (modal) {
+                modal.addEventListener('click', closeImageModal);
+            }
+        });
+    </script>
+
+    <!-- Image Modal HTML -->
+    <div id="imageModal" class="image-modal">
+        <span class="close-modal">&times;</span>
+        <img src="" alt="Enlarged Image">
+    </div>
