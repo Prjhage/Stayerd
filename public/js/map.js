@@ -14,12 +14,14 @@ L.tileLayer(
   `https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=${apiKey}`,
   {
     attribution: "&copy; MapTiler",
-  }
+  },
 ).addTo(map);
 
 const marker = L.marker([lat, lng]).addTo(map);
 
-marker.bindPopup(listing.location);
+// Show hotel title/name in popup, fallback to location if not found
+const popupContent = listing.title || listing.location;
+marker.bindPopup(`<b>${popupContent}</b>`);
 
 marker.on("click", () => {
   const googleMapUrl = `https://www.google.com/maps?q=${lat},${lng}`;

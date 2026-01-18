@@ -1,14 +1,142 @@
 <footer>
-  <div class="f-info text-center py-3 border-top">
-    <div class="f-info-socials mb-2">
-      <i class="fa-brands fa-square-facebook fa-lg mx-2"></i>
-      <i class="fa-brands fa-square-instagram fa-lg mx-2"></i>
+  <style>
+    footer {
+      background-color: #0f172a;
+      color: white;
+      margin-top: 80px;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 20px 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+    }
+
+    .footer-section h3 {
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #ff385c;
+    }
+
+    .footer-section ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 12px;
+    }
+
+    .footer-section a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      font-size: 0.95rem;
+    }
+
+    .footer-section a:hover {
+      color: #ff385c;
+    }
+
+    .f-info {
+      text-align: center;
+      padding: 30px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 30px;
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    .f-info-socials {
+      margin-bottom: 15px;
+    }
+
+    .f-info-socials i {
+      margin: 0 10px;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .f-info-socials i:hover {
+      color: #ff385c;
+    }
+
+    .f-info-links a {
+      margin: 0 15px;
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .f-info-links a:hover {
+      color: #ff385c;
+    }
+
+    .f-info-brand {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .footer-content {
+        grid-template-columns: 1fr;
+        padding: 40px 20px 30px;
+      }
+    }
+  </style>
+
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3>About Stayerd</h3>
+      <p style="color: rgba(255, 255, 255, 0.7); line-height: 1.6">
+        Stayerd is the world's leading online marketplace for unique vacation
+        rentals and accommodations. We connect travelers with verified hosts
+        worldwide.
+      </p>
     </div>
-    <div class="f-info-brand mb-2">&copy; Wanderlust Private Limited</div>
-    <div class="f-info-links">
-      <a href="/privacy" class="mx-2">Privacy</a>
-      <a href="/terms" class="mx-2">Terms</a>
-      <a href="/contact" class="mx-2">Contact</a>
+
+    <div class="footer-section">
+      <h3>For Guests</h3>
+      <ul>
+        <li><a href="/listings">Browse Listings</a></li>
+        <li><a href="/listings">Popular Destinations</a></li>
+        <li><a href="/listings">Budget-Friendly Properties</a></li>
+        <li><a href="/listings">Luxury Rentals</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h3>For Hosts</h3>
+      <ul>
+        <li><a href="/listings/new">Become a Host</a></li>
+        <li><a href="/listings/new">Host Your Property</a></li>
+        <li><a href="#faq">Pricing & Fees</a></li>
+        <li><a href="#faq">Host Protection</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h3>Company</h3>
+      <ul>
+        <li><a href="/privacy">Privacy Policy</a></li>
+        <li><a href="/terms">Terms & Conditions</a></li>
+        <li><a href="/contact">Contact Us</a></li>
+        <li><a href="#blog">Blog & Resources</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="f-info">
+    <div class="f-info-socials">
+      <i class="fa-brands fa-square-instagram fa-lg mx-2"></i>
+
+      <i class="fa-brands fa-linkedin fa-lg mx-2"></i>
+    </div>
+    <div class="f-info-brand mb-2">
+      &copy; 2026 Stayerd Private Limited. All rights reserved.
     </div>
   </div>
 </footer>

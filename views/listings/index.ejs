@@ -31,32 +31,39 @@
         }
         
         .filter {
+            display: flex;
+            flex-direction: column;
             align-items: center;
             min-width: 80px;
             text-align: center;
             opacity: 0.7;
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            padding-bottom: 0.5rem;
         }
         
         .filter>div {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto;
-            /* A fun, bouncy transition */
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            background-color: #f8f9fa;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         
         .filter i {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
+            color: #555;
+            transition: color 0.3s ease;
         }
         
         .filter p {
             font-size: 0.8rem;
-            margin-top: 0.4rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+            color: #555;
         }
         
         .filter.active {
@@ -71,8 +78,13 @@
         }
         
         .filter:hover>div {
-            transform: rotate(360deg);
-            box-shadow: 0 0 20px 5px rgba(13, 110, 253, 0.5);
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            transform: scale(1.1);
+        }
+        
+        .filter:hover i {
+            color: #fe424d;
         }
         /* Right arrow only */
         
@@ -85,6 +97,10 @@
             cursor: pointer;
             margin-left: 0.5rem;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         
         .scroll-right:hover {
@@ -96,28 +112,140 @@
             font-size: 0.85rem;
             color: #6c757d;
         }
+        /* Tax icon */
+        
+        .tax-icon {
+            margin-left: 2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+        
+        .tax-icon:hover {
+            background: #e9ecef;
+            border-color: #007bff;
+            transform: scale(1.1);
+            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+        }
+        
+        .tax-icon i {
+            font-size: 1.2rem;
+            color: #007bff;
+        }
+        
+        .tax-icon.active {
+            background: #007bff;
+        }
+        
+        .tax-icon.active i {
+            color: white;
+        }
         /* Tax toggle */
         
         .tax-toggle {
-            border: 1px solid #ccc;
-            border-radius: 50px;
-            /* Pill shape */
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            cursor: pointer;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            background: white;
+            position: relative;
             margin-left: 2rem;
-            white-space: nowrap;
+            cursor: pointer;
         }
         
-        .tax-toggle:hover {
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-            transform: translateY(-2px);
-            border-color: #fe424d;
+        .tax-toggle:hover::after {
+            content: "Display total after taxes";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            z-index: 10;
+            margin-top: 5px;
+        }
+        
+        .tax-toggle:hover::before {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-bottom-color: #333;
+            margin-top: -5px;
+        }
+        
+        .tax-label {
+            display: none;
+        }
+        
+        .sort-dropdown {
+            margin-left: 1rem;
+            position: relative;
+        }
+        
+        .sort-dropdown select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: none;
+            padding: 0.7rem 2.2rem 0.7rem 1.2rem;
+            border: 1px solid #dddddd;
+            border-radius: 30px;
+            background: white;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #222;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+        /* Custom Arrow */
+        
+        .sort-dropdown::after {
+            content: "\f107";
+            /* fa-angle-down */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.9rem;
+            color: #717171;
+            pointer-events: none;
+            transition: color 0.3s ease;
+        }
+        
+        .sort-dropdown:hover::after {
+            color: #222;
+        }
+        
+        .sort-dropdown select:hover {
+            border-color: #222;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px);
+        }
+        
+        .sort-dropdown select:focus {
+            outline: none;
+            border-color: #222;
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08);
+        }
+        
+        .sort-dropdown select option {
+            padding: 0.5rem;
+            background: white;
+            color: #333;
+            font-size: 0.9rem;
         }
         /* The switch - the box around the slider */
         
@@ -185,11 +313,35 @@
         }
         
         @media (max-width: 768px) {
-            .tax-toggle {
-                margin-left: 0;
-                margin-top: 0.8rem;
-                width: 100%;
+            .filters-wrapper {
+                flex-direction: row;
+                align-items: center;
                 justify-content: space-between;
+                gap: 10px;
+                padding: 10px 15px;
+            }
+            .scroll-right {
+                display: none !important;
+            }
+            .sort-dropdown {
+                margin-left: 0;
+                flex-grow: 1;
+            }
+            .sort-dropdown select {
+                width: 100%;
+                border: none;
+                background-color: #f3f4f6;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+                padding: 0.7rem 2.5rem 0.7rem 1.2rem;
+                font-size: 0.9rem;
+                font-weight: 600;
+                color: #333;
+            }
+            .tax-icon {
+                margin-left: 0;
+            }
+            .tax-info {
+                display: none !important;
             }
         }
         /* MOBILE FILTER UI */
@@ -341,6 +493,83 @@
                 margin-top: 3rem;
                 padding: 1.2rem;
             }
+            /* Mobile 2-column listing adjustments */
+            .listing-card {
+                margin-bottom: 10px;
+            }
+            .card-img-top {
+                height: 150px !important;
+            }
+            .card-body {
+                padding: 0.5rem !important;
+            }
+            .card-text {
+                font-size: 0.85rem;
+            }
+            .wishlist-btn {
+                top: 8px;
+                right: 8px;
+                width: 30px;
+                height: 30px;
+            }
+            .wishlist-btn i {
+                font-size: 1.2rem;
+            }
+            /* Mobile Rating Badge */
+            .mobile-rating-badge {
+                position: absolute;
+                top: 115px;
+                left: 8px;
+                background: rgba(255, 255, 255, 0.95);
+                padding: 4px 8px;
+                border-radius: 6px;
+                font-size: 0.75rem;
+                font-weight: 600;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+                z-index: 2;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                color: #333;
+            }
+            .mobile-rating-badge i {
+                color: #ffc107;
+                font-size: 0.7rem;
+            }
+            .desktop-rating {
+                display: none !important;
+            }
+        }
+        /* Desktop Image Rating Badge */
+        
+        .image-rating-badge {
+            position: absolute;
+            top: 19.5rem;
+            left: 12px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(4px);
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #222;
+            transform: translateY(-100%);
+        }
+        
+        .image-rating-badge i {
+            color: #ffc107;
+            font-size: 0.8rem;
+        }
+        
+        @media (max-width: 992px) {
+            .image-rating-badge {
+                top: 17.5rem;
+            }
         }
     </style>
 
@@ -473,57 +702,65 @@
     <i class="fa-solid fa-chevron-right"></i>
   </button>
 
-        <!-- Tax toggle -->
-        <div class="tax-toggle">
-            <label class="switch">
-      <input type="checkbox" id="switchCheckDefault" />
-      <span class="slider round"></span>
-    </label>
-            <label for="switchCheckDefault" class="tax-label">Display total after taxes</label
-    >
-  </div>
-</div>
+        <!-- Sort dropdown -->
+        <div class="sort-dropdown">
+            <select id="sortSelect" class="form-select">
+                <option value="">Sort by</option>
+                <option value="price-low" <%= sort === 'price-low' ? 'selected' : '' %>>Price: Low to High</option>
+                <option value="price-high" <%= sort === 'price-high' ? 'selected' : '' %>>Price: High to Low</option>
+                <option value="rating" <%= sort === 'rating' ? 'selected' : '' %>>Average Rating</option>
+            </select>
+        </div>
 
-<% if (allListings.length === 0) { %>
-<div class="no-results">
-  <i class="fa-regular fa-face-frown"></i>
-  <h4>Sorry, no stays found</h4>
-  <p>Try adjusting your search or explore other destinations.</p>
-  <a href="/listings" class="btn btn-dark mt-2">Clear search</a>
-</div>
-<% } %>
+        <!-- Tax icon -->
+        <div class="tax-icon" id="taxIcon" title="Display total after taxes">
+            <i class="fa-solid fa-calculator"></i>
+        </div>
+    </div>
 
-<div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 mt-3">
-  <% for(let listing of allListings) { %>
-  <a
-    href="/listings/<%=listing._id%>"
-    style="text-decoration: none; color: black"
-  >
-    <div class="card col listing-card">
-      <img
-        src="<%= listing.image?.url || '/images/fallback.jpg' %>"
-        class="card-img-top"
-        style="height: 20em"
-        alt="listing_image"
-        onerror="this.onerror=null; this.src='/images/fallback.jpg';"
-      />
-      <button
-        type="button"
-        class="wishlist-btn <%= userWishlist.includes(listing._id) ? 'saved' : '' %>"
-        data-id="<%= listing._id %>"
-        aria-label="Save to wishlist"
-        onclick="event.stopPropagation();"
-      >
+    <% if (allListings.length === 0) { %>
+        <div class="no-results">
+            <i class="fa-regular fa-face-frown"></i>
+            <h4>Sorry, no stays found</h4>
+            <p>Try adjusting your search or explore other destinations.</p>
+            <a href="/listings" class="btn btn-dark mt-2">Clear search</a>
+        </div>
+        <% } %>
+
+
+            <div class="row row-cols-lg-4 row-cols-md-2 row-cols-2 mt-3">
+                <% for(let listing of allListings) { %>
+                    <a href="/listings/<%=listing._id%>" style="text-decoration: none; color: black">
+                        <div class="card col listing-card">
+                            <img src="<%= listing.image?.url || '/images/fallback.jpg' %>" class="card-img-top" style="height: 20em" alt="listing_image" onerror="this.onerror=null; this.src='/images/fallback.jpg';" />
+                            <button type="button" class="wishlist-btn <%= userWishlist.includes(listing._id) ? 'saved' : '' %>" data-id="<%= listing._id %>" aria-label="Save to wishlist" onclick="event.stopPropagation();">
         <i class="fa-regular fa-heart"></i>
         <i class="fa-solid fa-heart"></i>
       </button>
 
-      <div class="card-img-overlay"></div>
-      <div class="card-body">
-        <p class="card-text">
-          <b> <%= listing.title %> </b>
-          <br />
-          <span class="d-flex justify-content-between align-items-center">
+                            <!-- Mobile Rating Overlay -->
+                            <% if (listing.avgRating > 0) { %>
+                                <div class="mobile-rating-badge d-md-none">
+                                    <i class="fa-solid fa-star"></i>
+                                    <%= listing.avgRating.toFixed(1) %> (
+                                        <%= listing.reviews.length %>)
+                                </div>
+                                <% } %>
+
+                                    <!-- Desktop Rating Overlay -->
+                                    <% if (listing.avgRating > 0) { %>
+                                        <div class="image-rating-badge d-none d-md-flex">
+                                            <i class="fa-solid fa-star"></i>
+                                            <%= listing.avgRating.toFixed(1) %> <span style="font-weight: 500; color: #666; margin-left: 2px;">(<%= listing.reviews.length %>)</span>
+                                        </div>
+                                        <% } %>
+
+                                            <div class="card-img-overlay"></div>
+                                            <div class="card-body">
+                                                <p class="card-text">
+                                                    <b> <%= listing.title %> </b>
+                                                    <br />
+                                                    <span class="d-flex justify-content-between align-items-center">
             <span>
               &#8377;
               <span class="price-val" data-val="<%= listing.price %>"
@@ -532,193 +769,249 @@
               /night
               <i class="tax-info"> &nbsp;+18% GST</i>
             </span>
-            <% if (listing.avgRating > 0) { %>
-            <span class="rating"> <%= renderStars(listing.avgRating) %> </span>
-            <% } %>
-          </span>
-        </p>
-      </div>
-    </div>
-  </a>
-  <% } %>
-</div>
+                                                    </span>
+                                                </p>
+                                            </div>
+                        </div>
+                    </a>
+                    <% } %>
+            </div>
+            <!-- MOBILE FILTER TAB -->
+            <div class="mobile-filter-tab" onclick="openMobileFilters()">Filters</div>
 
-<!-- MOBILE FILTER TAB -->
-<div class="mobile-filter-tab" onclick="openMobileFilters()">Filters</div>
-
-<!-- MOBILE FILTER DRAWER -->
-<div class="mobile-filter-drawer" id="mobileFilters">
-  <div class="mf-header">
-    <span>Filters</span>
-    <i class="fa-solid fa-xmark" onclick="closeMobileFilters()"></i>
-  </div>
-  <div class="mf-tax">
-    <label class="mf-tax-row">
+            <!-- MOBILE FILTER DRAWER -->
+            <div class="mobile-filter-drawer" id="mobileFilters">
+                <div class="mf-header">
+                    <span>Filters</span>
+                    <i class="fa-solid fa-xmark" onclick="closeMobileFilters()"></i>
+                </div>
+                <!-- <div class="mf-tax">
+                    <label class="mf-tax-row">
       <span>Display total after taxes</span>
       <input type="checkbox" id="mobileTaxToggle" />
     </label>
-        </div>
+                </div> -->
 
-        <div class="mf-list">
-            <a href="/listings?category=trending" class="mf-item">
-                <span class="mf-icon"><i class="fa-solid fa-fire"></i></span>
-                <span class="mf-text">Trending</span>
-            </a>
+                <div class="mf-list">
+                    <a href="/listings?category=trending" class="mf-item">
+                        <span class="mf-icon"><i class="fa-solid fa-fire"></i></span>
+                        <span class="mf-text">Trending</span>
+                    </a>
 
-            <a href="/listings?category=rooms" class="mf-item">
-                <span class="mf-icon"><i class="fa-solid fa-bed"></i></span>
-                <span class="mf-text">Rooms</span>
-            </a>
+                    <a href="/listings?category=rooms" class="mf-item">
+                        <span class="mf-icon"><i class="fa-solid fa-bed"></i></span>
+                        <span class="mf-text">Rooms</span>
+                    </a>
 
-            <a href="/listings?category=iconic" class="mf-item">
-                <span class="mf-icon"><i class="fa-solid fa-city"></i></span>
-                <span class="mf-text">Iconic Cities</span>
-            </a>
+                    <a href="/listings?category=iconic" class="mf-item">
+                        <span class="mf-icon"><i class="fa-solid fa-city"></i></span>
+                        <span class="mf-text">Iconic Cities</span>
+                    </a>
 
-            <a href="/listings?category=mountain" class="mf-item">
-                <span class="mf-icon"><i class="fa-solid fa-mountain"></i></span>
-                <span class="mf-text">Mountain</span>
-            </a>
+                    <a href="/listings?category=mountain" class="mf-item">
+                        <span class="mf-icon"><i class="fa-solid fa-mountain"></i></span>
+                        <span class="mf-text">Mountain</span>
+                    </a>
 
-            <a href="/listings?category=castles" class="mf-item">
-                <span class="mf-icon"><i class="fa-brands fa-fort-awesome"></i></span>
-                <span class="mf-text">Castles</span>
-            </a>
+                    <a href="/listings?category=castles" class="mf-item">
+                        <span class="mf-icon"><i class="fa-brands fa-fort-awesome"></i></span>
+                        <span class="mf-text">Castles</span>
+                    </a>
 
-            <a href="/listings?category=pools" class="mf-item">
-                <span class="mf-icon"><i class="fa-solid fa-person-swimming"></i></span>
-                <span class="mf-text">Amazing Pools</span>
-            </a>
+                    <a href="/listings?category=pools" class="mf-item">
+                        <span class="mf-icon"><i class="fa-solid fa-person-swimming"></i></span>
+                        <span class="mf-text">Amazing Pools</span>
+                    </a>
 
-            <a href="/listings?category=camping" class="mf-item">
-                <span class="mf-icon"><i class="fa-solid fa-campground"></i></span>
-                <span class="mf-text">Camping</span>
-            </a>
+                    <a href="/listings?category=camping" class="mf-item">
+                        <span class="mf-icon"><i class="fa-solid fa-campground"></i></span>
+                        <span class="mf-text">Camping</span>
+                    </a>
 
-            <a href="/listings?category=farms" class="mf-item">
-                <span class="mf-icon"><i class="fa-solid fa-tractor"></i></span>
-                <span class="mf-text">Farms</span>
-            </a>
+                    <a href="/listings?category=farms" class="mf-item">
+                        <span class="mf-icon"><i class="fa-solid fa-tractor"></i></span>
+                        <span class="mf-text">Farms</span>
+                    </a>
 
-            <a href="/listings?category=arctic" class="mf-item">
-                <span class="mf-icon"><i class="fa-solid fa-snowman"></i></span>
-                <span class="mf-text">Arctic</span>
-            </a>
+                    <a href="/listings?category=arctic" class="mf-item">
+                        <span class="mf-icon"><i class="fa-solid fa-snowman"></i></span>
+                        <span class="mf-text">Arctic</span>
+                    </a>
 
-            <a href="/listings?category=domes" class="mf-item">
-                <span class="mf-icon"><i class="fa-solid fa-igloo"></i></span>
-                <span class="mf-text">Domes</span>
-            </a>
+                    <a href="/listings?category=domes" class="mf-item">
+                        <span class="mf-icon"><i class="fa-solid fa-igloo"></i></span>
+                        <span class="mf-text">Domes</span>
+                    </a>
 
-            <a href="/listings?category=boats" class="mf-item">
-                <span class="mf-icon"><i class="fa-solid fa-ship"></i></span>
-                <span class="mf-text">Boats</span>
-            </a>
+                    <a href="/listings?category=boats" class="mf-item">
+                        <span class="mf-icon"><i class="fa-solid fa-ship"></i></span>
+                        <span class="mf-text">Boats</span>
+                    </a>
 
-            <a href="/listings?category=forest" class="mf-item">
-                <span class="mf-icon"><i class="fa-solid fa-tree"></i></span>
-                <span class="mf-text">Forest</span>
-            </a>
+                    <a href="/listings?category=forest" class="mf-item">
+                        <span class="mf-icon"><i class="fa-solid fa-tree"></i></span>
+                        <span class="mf-text">Forest</span>
+                    </a>
 
-            <a href="/listings?category=lakefront" class="mf-item">
-                <span class="mf-icon"><i class="fa-solid fa-water"></i></span>
-                <span class="mf-text">Lakefront</span>
-            </a>
+                    <a href="/listings?category=lakefront" class="mf-item">
+                        <span class="mf-icon"><i class="fa-solid fa-water"></i></span>
+                        <span class="mf-text">Lakefront</span>
+                    </a>
 
-            <a href="/listings?category=beach" class="mf-item">
-                <span class="mf-icon"><i class="fa-solid fa-umbrella-beach"></i></span>
-                <span class="mf-text">Beach</span>
-            </a>
+                    <a href="/listings?category=beach" class="mf-item">
+                        <span class="mf-icon"><i class="fa-solid fa-umbrella-beach"></i></span>
+                        <span class="mf-text">Beach</span>
+                    </a>
 
-            <a href="/listings?category=urban" class="mf-item">
-                <span class="mf-icon"><i class="fa-solid fa-city"></i></span>
-                <span class="mf-text">Urban</span>
-            </a>
+                    <a href="/listings?category=urban" class="mf-item">
+                        <span class="mf-icon"><i class="fa-solid fa-city"></i></span>
+                        <span class="mf-text">Urban</span>
+                    </a>
 
-            <a href="/listings?category=countryside" class="mf-item">
-                <span class="mf-icon"><i class="fa-solid fa-house-chimney"></i></span>
-                <span class="mf-text">Countryside</span>
-            </a>
-        </div>
-    </div>
+                    <a href="/listings?category=countryside" class="mf-item">
+                        <span class="mf-icon"><i class="fa-solid fa-house-chimney"></i></span>
+                        <span class="mf-text">Countryside</span>
+                    </a>
+                </div>
+            </div>
 
-    <script>
-        function scrollFilters() {
-            const filters = document.getElementById("filters");
-            filters.scrollBy({
-                left: 200,
-                behavior: "smooth",
-            });
-        }
-        document.addEventListener("DOMContentLoaded", () => {
-            const taxSwitch = document.getElementById("switchCheckDefault");
-            const taxInfos = document.querySelectorAll(".tax-info");
-            const priceVals = document.querySelectorAll(".price-val");
+            <script>
+                function scrollFilters() {
+                    const filters = document.getElementById("filters");
+                    filters.scrollBy({
+                        left: 200,
+                        behavior: "smooth",
+                    });
+                }
+                document.addEventListener("DOMContentLoaded", () => {
+                    const taxSwitch = document.getElementById("switchCheckDefault");
+                    const taxInfos = document.querySelectorAll(".tax-info");
+                    const priceVals = document.querySelectorAll(".price-val");
 
-            if (taxSwitch) {
-                taxSwitch.addEventListener("change", () => {
-                    for (let i = 0; i < taxInfos.length; i++) {
-                        if (taxSwitch.checked) {
-                            taxInfos[i].style.display = "inline";
-                            let price = Number(priceVals[i].dataset.val);
-                            priceVals[i].innerText = (price * 1.18).toLocaleString("en-IN");
-                        } else {
-                            taxInfos[i].style.display = "none";
-                            let price = Number(priceVals[i].dataset.val);
-                            priceVals[i].innerText = price.toLocaleString("en-IN");
-                        }
+                    if (taxSwitch) {
+                        taxSwitch.addEventListener("change", () => {
+                            for (let i = 0; i < taxInfos.length; i++) {
+                                if (taxSwitch.checked) {
+                                    taxInfos[i].style.display = "inline";
+                                    let price = Number(priceVals[i].dataset.val);
+                                    priceVals[i].innerText = (price * 1.18).toLocaleString("en-IN");
+                                } else {
+                                    taxInfos[i].style.display = "none";
+                                    let price = Number(priceVals[i].dataset.val);
+                                    priceVals[i].innerText = price.toLocaleString("en-IN");
+                                }
+                            }
+                        });
+                    }
+
+                    // Infinite Scroll Logic
+                    const filters = document.getElementById("filters");
+                    const filtersInner = document.querySelector(".filters-inner");
+
+                    if (filters && filtersInner) {
+                        const originalWidth = filtersInner.scrollWidth;
+                        const gap = parseFloat(window.getComputedStyle(filtersInner).gap) || 0;
+                        const repeatDistance = originalWidth + gap;
+
+                        // Clone children
+                        Array.from(filtersInner.children).forEach((child) => {
+                            filtersInner.appendChild(child.cloneNode(true));
+                        });
+
+                        filters.addEventListener("scroll", () => {
+                            if (filters.scrollLeft >= repeatDistance) {
+                                filters.scrollLeft -= repeatDistance;
+                            }
+                        });
                     }
                 });
-            }
+            </script>
+            <script>
+                function openMobileFilters() {
+                    document.getElementById("mobileFilters").classList.add("active");
+                }
 
-            // Infinite Scroll Logic
-            const filters = document.getElementById("filters");
-            const filtersInner = document.querySelector(".filters-inner");
-
-            if (filters && filtersInner) {
-                const originalWidth = filtersInner.scrollWidth;
-                const gap = parseFloat(window.getComputedStyle(filtersInner).gap) || 0;
-                const repeatDistance = originalWidth + gap;
-
-                // Clone children
-                Array.from(filtersInner.children).forEach((child) => {
-                    filtersInner.appendChild(child.cloneNode(true));
+                function closeMobileFilters() {
+                    document.getElementById("mobileFilters").classList.remove("active");
+                }
+                document.querySelectorAll(".mf-item").forEach((item) => {
+                    item.addEventListener("click", () => {
+                        closeMobileFilters();
+                    });
                 });
+            </script>
 
-                filters.addEventListener("scroll", () => {
-                    if (filters.scrollLeft >= repeatDistance) {
-                        filters.scrollLeft -= repeatDistance;
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    const taxIcon = document.getElementById("taxIcon");
+                    const mobileTax = document.getElementById("mobileTaxToggle");
+                    const taxInfos = document.querySelectorAll(".tax-info");
+                    const priceVals = document.querySelectorAll(".price-val");
+                    // Tax icon click handler
+                    if (taxIcon) {
+                        taxIcon.addEventListener("click", () => {
+                            const isActive = taxIcon.classList.contains("active");
+
+                            if (isActive) {
+                                // Turn off tax display
+                                taxIcon.classList.remove("active");
+                                for (let i = 0; i < taxInfos.length; i++) {
+                                    taxInfos[i].style.display = "none";
+                                    let price = Number(priceVals[i].dataset.val);
+                                    priceVals[i].innerText = price.toLocaleString("en-IN");
+                                }
+                                if (mobileTax) mobileTax.checked = false;
+                            } else {
+                                // Turn on tax display
+                                taxIcon.classList.add("active");
+                                for (let i = 0; i < taxInfos.length; i++) {
+                                    taxInfos[i].style.display = "inline";
+                                    let price = Number(priceVals[i].dataset.val);
+                                    priceVals[i].innerText = (price * 1.18).toLocaleString("en-IN");
+                                }
+                                if (mobileTax) mobileTax.checked = true;
+                            }
+                        });
+                    }
+
+                    // Sync mobile toggle with desktop icon state
+                    if (taxIcon && mobileTax) {
+                        mobileTax.checked = taxIcon.classList.contains("active");
+
+                        mobileTax.addEventListener("change", () => {
+                            if (mobileTax.checked) {
+                                taxIcon.classList.add("active");
+                                // Trigger tax calculation
+                                for (let i = 0; i < taxInfos.length; i++) {
+                                    taxInfos[i].style.display = "inline";
+                                    let price = Number(priceVals[i].dataset.val);
+                                    priceVals[i].innerText = (price * 1.18).toLocaleString("en-IN");
+                                }
+                            } else {
+                                taxIcon.classList.remove("active");
+                                for (let i = 0; i < taxInfos.length; i++) {
+                                    taxInfos[i].style.display = "none";
+                                    let price = Number(priceVals[i].dataset.val);
+                                }
+                            }
+                        });
+                    }
+
+                    // Sort functionality
+                    const sortSelect = document.getElementById("sortSelect");
+                    if (sortSelect) {
+                        sortSelect.addEventListener("change", () => {
+                            const selectedValue = sortSelect.value;
+                            const urlParams = new URLSearchParams(window.location.search);
+
+                            if (selectedValue) {
+                                urlParams.set('sort', selectedValue);
+                            } else {
+                                urlParams.delete('sort');
+                            }
+
+                            window.location.search = urlParams.toString();
+                        });
                     }
                 });
-            }
-        });
-    </script>
-    <script>
-        function openMobileFilters() {
-            document.getElementById("mobileFilters").classList.add("active");
-        }
-
-        function closeMobileFilters() {
-            document.getElementById("mobileFilters").classList.remove("active");
-        }
-
-        document.querySelectorAll(".mf-item").forEach((item) => {
-            item.addEventListener("click", () => {
-                closeMobileFilters();
-            });
-        });
-    </script>
-
-    <script>
-        const desktopTax = document.getElementById("switchCheckDefault");
-        const mobileTax = document.getElementById("mobileTaxToggle");
-
-        if (desktopTax && mobileTax) {
-            mobileTax.checked = desktopTax.checked;
-
-            mobileTax.addEventListener("change", () => {
-                desktopTax.checked = mobileTax.checked;
-                desktopTax.dispatchEvent(new Event("change"));
-            });
-        }
-    </script>
+            </script>

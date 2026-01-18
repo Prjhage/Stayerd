@@ -7,7 +7,7 @@ const { getNearbyPlaces } = require("../services/nearbyPlacesService");
 const amenityIcons = require("../public/js/amenities.js");
 
 module.exports.index = async (req, res) => {
-  const { q, category } = req.query;
+  const { q, category, sort } = req.query;
   const query = {};
 
   if (category) {
@@ -22,7 +22,16 @@ module.exports.index = async (req, res) => {
     ];
   }
 
-  const allListings = await Listing.find(query);
+  let allListings = await Listing.find(query);
+
+  // Sort listings based on sort parameter
+  if (sort === "price-low") {
+    allListings.sort((a, b) => a.price - b.price);
+  } else if (sort === "price-high") {
+    allListings.sort((a, b) => b.price - a.price);
+  } else if (sort === "rating") {
+    allListings.sort((a, b) => (b.avgRating || 0) - (a.avgRating || 0));
+  }
 
   const userWishlist = req.user ? req.user.wishlist || [] : [];
 
@@ -35,6 +44,7 @@ module.exports.index = async (req, res) => {
     allListings,
     userWishlist,
     isHost,
+    sort,
   });
 };
 
@@ -79,7 +89,7 @@ module.exports.showListings = async (req, res) => {
             img ||
             "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073&auto=format&fit=crop",
         };
-      })
+      }),
     );
   }
 
@@ -91,7 +101,7 @@ module.exports.showListings = async (req, res) => {
   console.log("Nearby places:", nearbyPlaces.length);
   console.log(
     "TravelCompanion:",
-    travelCompanion ? "Available" : "Not available"
+    travelCompanion ? "Available" : "Not available",
   );
 
   res.render("listings/show.ejs", {
@@ -147,8 +157,8 @@ module.exports.createListings = async (req, res) => {
 
     const geoResponse = await fetch(
       `https://api.maptiler.com/geocoding/${encodeURIComponent(
-        req.body.listing.location
-      )}.json?key=${process.env.MAP_TOKEN}`
+        req.body.listing.location,
+      )}.json?key=${process.env.MAP_TOKEN}`,
     );
 
     const geoData = await geoResponse.json();
@@ -167,7 +177,7 @@ module.exports.createListings = async (req, res) => {
     // Fallback or redirect
     req.flash(
       "error",
-      "Could not validate location. Please check the address."
+      "Could not validate location. Please check the address.",
     );
     return res.redirect("/listings/new");
   }
@@ -292,12 +302,17 @@ module.exports.updateListings = async (req, res) => {
     return res.redirect("/listings");
   }
 
+  // Remove acceptHostTerms from req.body.listing if it exists (not needed for updates)
+  if (req.body.listing.acceptHostTerms !== undefined) {
+    delete req.body.listing.acceptHostTerms;
+  }
+
   /* ================= GEO LOCATION UPDATE ================= */
   if (req.body.listing.location) {
     const geoResponse = await fetch(
       `https://api.maptiler.com/geocoding/${encodeURIComponent(
-        req.body.listing.location
-      )}.json?key=${process.env.MAP_TOKEN}`
+        req.body.listing.location,
+      )}.json?key=${process.env.MAP_TOKEN}`,
     );
 
     const geoData = await geoResponse.json();

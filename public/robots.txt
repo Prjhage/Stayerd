@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+Allow: /listings
+Allow: /listings/new
+Allow: /listings/*
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/private/
+Allow: /api/
+
+Sitemap: https://stayerd.com/sitemap.xml
+
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1

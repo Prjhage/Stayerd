@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
 const Listing = require("../models/listing.js");
-const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
+const { isLoggedIn, isOwner, validateListing, validateListingUpdate } = require("../middleware.js");
 const listingController = require("../controllers/listings.js");
 
 const multer = require("multer");
@@ -30,7 +30,7 @@ router
         ]),
 
         validateListing,
-        wrapAsync(listingController.createListings)
+        wrapAsync(listingController.createListings),
     ); //create route
 
 //New Route check user is authenticated
@@ -44,9 +44,9 @@ router
         isLoggedIn,
         isOwner,
         upload.single("listing[image]"),
-        validateListing,
+        validateListingUpdate,
 
-        wrapAsync(listingController.updateListings)
+        wrapAsync(listingController.updateListings),
     ) //update route
     .delete(isLoggedIn, isOwner, wrapAsync(listingController.destroyListings)); //   delete route
 
@@ -55,7 +55,7 @@ router.get(
     "/:id/edit",
     isLoggedIn,
     isOwner,
-    wrapAsync(listingController.renderEditForm)
+    wrapAsync(listingController.renderEditForm),
 );
 
 module.exports = router;

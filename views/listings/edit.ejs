@@ -2,189 +2,129 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
+    <style>
+        /* Edit form image sizing */
+        
+        .lf-preview {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        
+        .lf-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 0.8rem;
+            margin-top: 0.4rem;
+        }
+        
+        .lf-thumb {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            transition: transform 0.2s ease;
+        }
+        
+        .lf-thumb:hover {
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 768px) {
+            .lf-preview {
+                max-width: 250px;
+                height: 150px;
+            }
+            .lf-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+            .lf-thumb {
+                height: 100px;
+            }
+        }
+    </style>
     <div class="listing-overlay">
         <div class="listing-g-card create-card">
-
-            <div class="listing-header">
-                <i class="fa-solid fa-house listing-icon"></i>
+            <div class="listing-header"><i class="fa-solid fa-house listing-icon"></i>
                 <h2>Edit Listing</h2>
             </div>
-
             <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" enctype="multipart/form-data" class="listing-form" novalidate>
-
-                <div class="lf-group">
-                    <label>Title</label>
-                    <input type="text" name="listing[title]" value="<%= listing.title %>" required />
-                </div>
-
-                <div class="lf-group">
-                    <label>Description</label>
-                    <textarea name="listing[description]" rows="3" required><%= listing.description %></textarea>
-                </div>
-
-                <div class="lf-group">
-                    <label>Current Image</label>
-                    <img src="<%= orignalImageUrl %>" alt="Listing image" class="lf-preview" />
-                </div>
-
-                <div class="lf-group">
-                    <label>Upload New Image</label>
-                    <input type="file" name="listing[image]" accept="image/*" />
-                </div>
-                <div class="lf-group">
-                    <label>Upload Additional Images (optional)</label>
-                    <input type="file" name="listing[images]" accept="image/*" multiple />
-                    <small>You can upload up to 5 extra images</small>
-                </div>
-
-                <% if (listing.images && listing.images.length > 0) { %>
-                    <div class="lf-group">
-                        <label>Existing Gallery Images</label>
+                <div class="lf-group"><label>Title</label><input type="text" name="listing[title]" value="<%= listing.title %>" required /></div>
+                <div class="lf-group"><label>Description</label><textarea name="listing[description]" rows="3" required><%=listing.description %></textarea></div>
+                <div class="lf-group"><label>Current Image</label><img src="<%= orignalImageUrl %>" alt="Listing image" class="lf-preview" /></div>
+                <div class="lf-group"><label>Upload New Image</label><input type="file" name="listing[image]" accept="image/*" /></div>
+                <div class="lf-group"><label>Upload Additional Images (optional)</label><input type="file" name="listing[images]" accept="image/*" multiple /><small>You can upload up to 5 extra images</small></div>
+                <% if (listing.images && listing.images.length > 0) {
+                %>
+                    <div class="lf-group"><label>Existing Gallery Images</label>
                         <div class="lf-gallery">
-                            <% listing.images.forEach(img => { %>
-                                <img src="<%= img.url %>" class="lf-thumb" />
-                                <% }) %>
+                            <% listing.images.forEach(img=> {
+                    %> <img src="<%= img.url %>" class="lf-thumb" alt="Gallery image" />
+                                <%
+                }
+                ) %>
                         </div>
                     </div>
-                    <% } %>
-
-
-                        <!-- PRICE + CATEGORY -->
+                    <%
+            }
+            %>
+                        <!-- PRICE+CATEGORY -->
                         <div class="lf-row">
-                            <div class="lf-group half">
-                                <label>Price per night</label>
-                                <input type="number" name="listing[price]" value="<%= listing.price %>" min="1" required />
-                            </div>
-
-                            <div class="lf-group half">
-                                <label>Category</label>
-                                <select name="listing[category]" required>
-            <option value="trending" <%= listing.category === 'trending' ? 'selected' : '' %>>🔥 Trending</option>
-            <option value="rooms" <%= listing.category === 'rooms' ? 'selected' : '' %>>🛏 Rooms</option>
-            <option value="iconic" <%= listing.category === 'iconic' ? 'selected' : '' %>>🏙 Iconic Cities</option>
-            <option value="mountain" <%= listing.category === 'mountain' ? 'selected' : '' %>>🏔 Mountain</option>
-            <option value="castles" <%= listing.category === 'castles' ? 'selected' : '' %>>🏰 Castles</option>
-            <option value="pools" <%= listing.category === 'pools' ? 'selected' : '' %>>🏊 Amazing Pools</option>
-            <option value="camping" <%= listing.category === 'camping' ? 'selected' : '' %>>🏕 Camping</option>
-            <option value="farms" <%= listing.category === 'farms' ? 'selected' : '' %>>🚜 Farms</option>
-            <option value="arctic" <%= listing.category === 'arctic' ? 'selected' : '' %>>❄ Arctic</option>
-            <option value="domes" <%= listing.category === 'domes' ? 'selected' : '' %>>🧊 Domes</option>
-            <option value="boats" <%= listing.category === 'boats' ? 'selected' : '' %>>🚤 Boats</option>
-            <option value="forest" <%= listing.category === 'forest' ? 'selected' : '' %>>🌲 Forest</option>
-            <option value="lakefront" <%= listing.category === 'lakefront' ? 'selected' : '' %>>🌊 Lakefront</option>
-            <option value="beach" <%= listing.category === 'beach' ? 'selected' : '' %>>🏖 Beach</option>
-            <option value="urban" <%= listing.category === 'urban' ? 'selected' : '' %>>🏙 Urban</option>
-            <option value="countryside" <%= listing.category === 'countryside' ? 'selected' : '' %>>🏡 Countryside</option>
-          </select>
-                            </div>
+                            <div class="lf-group half"><label>Price per night</label><input type="number" name="listing[price]" value="<%= listing.price %>" min="1" required /></div>
+                            <div class="lf-group half"><label>Category</label><select name="listing[category]" required><option value="trending" <%=listing.category==='trending' ? 'selected': '' %>>🔥 Trending</option><option value="rooms" <%=listing.category==='rooms' ? 'selected': '' %>>🛏 Rooms</option><option value="iconic" <%=listing.category==='iconic' ? 'selected': '' %>>🏙 Iconic Cities</option><option value="mountain" <%=listing.category==='mountain' ? 'selected': '' %>>🏔 Mountain</option><option value="castles" <%=listing.category==='castles' ? 'selected': '' %>>🏰 Castles</option><option value="pools" <%=listing.category==='pools' ? 'selected': '' %>>🏊 Amazing Pools</option><option value="camping" <%=listing.category==='camping' ? 'selected': '' %>>🏕 Camping</option><option value="farms" <%=listing.category==='farms' ? 'selected': '' %>>🚜 Farms</option><option value="arctic" <%=listing.category==='arctic' ? 'selected': '' %>>❄ Arctic</option><option value="domes" <%=listing.category==='domes' ? 'selected': '' %>>🧊 Domes</option><option value="boats" <%=listing.category==='boats' ? 'selected': '' %>>🚤 Boats</option><option value="forest" <%=listing.category==='forest' ? 'selected': '' %>>🌲 Forest</option><option value="lakefront" <%=listing.category==='lakefront' ? 'selected': '' %>>🌊 Lakefront</option><option value="beach" <%=listing.category==='beach' ? 'selected': '' %>>🏖 Beach</option><option value="urban" <%=listing.category==='urban' ? 'selected': '' %>>🏙 Urban</option><option value="countryside" <%=listing.category==='countryside' ? 'selected': '' %>>🏡 Countryside</option></select></div>
                         </div>
-
-                        <div class="lf-group">
-                            <label>Country</label>
-                            <input type="text" name="listing[country]" value="<%= listing.country %>" required />
-                        </div>
-
-                        <div class="lf-group">
-                            <label>Location</label>
-                            <input type="text" name="listing[location]" value="<%= listing.location %>" required />
-                        </div>
-                        <div class="lf-group">
-                            <label>What this place offers</label>
-
+                        <div class="lf-group"><label>Country</label><input type="text" name="listing[country]" value="<%= listing.country %>" required /></div>
+                        <div class="lf-group"><label>Location</label><input type="text" name="listing[location]" value="<%= listing.location %>" required /></div>
+                        <div class="lf-group"><label>What this place offers</label>
                             <div class="amenities-grid">
-                                <% 
-      const AMENITIES = [
-        "Wifi",
-        "Kitchen",
-        "Free parking",
-        "Pool",
-      
-        "Lake access",
-        "Garden view",
-        "TV",
-        "Dedicated workspace",
-        
-        "Lift",
-        " City skyline view",
-      ];
-    %>
-
-                                    <% AMENITIES.forEach(a => { %>
-                                        <label class="amenity-check">
-        <input
-          type="checkbox"
-          name="listing[amenities][]"
-          value="<%= a %>"
-          <%= listing.amenities?.includes(a) ? "checked" : "" %>
-        />
-        <span><%= a %></span>
-      </label>
-                                        <% }) %>
+                                <% const AMENITIES=[ "Wifi",
+            "Kitchen",
+            "Free parking",
+            "Pool",
+            "Lake access",
+            "Garden view",
+            "TV",
+            "Dedicated workspace",
+            "Lift",
+            " City skyline view",
+            ];
+            %>
+                                    <% AMENITIES.forEach(a=> {
+                %> <label class="amenity-check"> <input type="checkbox" name="listing[amenities][]" value="<%= a %>" <%=listing.amenities?.includes(a) ? "checked": "" %> /> <span><%=a %></span> </label>
+                                        <%
+            }
+            ) %>
                             </div>
                         </div>
-
                         <!-- GUEST AND PET SETTINGS -->
                         <div class="lf-group">
                             <h4>Guest & Pet Settings</h4>
                             <p class="text-muted">Configure guest limits and pet policies for your listing</p>
-
                             <!-- GUEST LIMITS -->
                             <div class="lf-row">
-                                <div class="lf-group half">
-                                    <label>Maximum Total Guests</label>
-                                    <input type="number" name="listing[maxGuests]" class="form-control" placeholder="5" min="1" max="20" value="<%= listing.maxGuests || 5 %>" required />
-                                    <small class="text-muted">Total guests allowed (adults + children)</small>
-                                </div>
-
-                                <div class="lf-group half">
-                                    <label>Maximum Adults</label>
-                                    <input type="number" name="listing[maxAdults]" class="form-control" placeholder="5" min="1" max="20" value="<%= listing.maxAdults || 5 %>" required />
-                                    <small class="text-muted">Maximum adults allowed</small>
-                                </div>
-                            </div>
-
-                            <div class="lf-row">
-                                <div class="lf-group half">
-                                    <label>Maximum Children</label>
-                                    <input type="number" name="listing[maxChildren]" class="form-control" placeholder="5" min="0" max="20" value="<%= listing.maxChildren || 5 %>" required />
-                                    <small class="text-muted">Maximum children allowed (ages 2-12)</small>
-                                </div>
-
-                                <div class="lf-group half">
-                                    <label>Free Guests</label>
-                                    <input type="number" name="listing[freeGuests]" class="form-control" placeholder="3" min="0" max="20" value="<%= listing.freeGuests || 3 %>" required />
-                                    <small class="text-muted">Number of guests included in base price</small>
-                                </div>
-                            </div>
-
-                            <!-- PET SETTINGS -->
-                            <div class="lf-row">
-                                <div class="lf-group half">
-                                    <label>Pets Allowed</label>
-                                    <select name="listing[petsAllowed]" class="form-select" required>
-                                <option value="false" <%= !listing.petsAllowed ? 'selected' : '' %>>No</option>
-                                <option value="true" <%= listing.petsAllowed ? 'selected' : '' %>>Yes</option>
-                              </select>
-                                    <small class="text-muted">Do you allow pets at your property?</small>
-                                </div>
-
-                                <div class="lf-group half">
-                                    <label>Pet Charge per Night (₹)</label>
-                                    <input type="number" name="listing[petChargePerNight]" class="form-control" placeholder="300" min="0" value="<%= listing.petChargePerNight || 300 %>" required />
-                                    <small class="text-muted">Charge per pet per night</small>
-                                </div>
-                            </div>
-
-                            <!-- EXTRA GUEST CHARGE -->
-                            <div class="lf-group">
-                                <label>Extra Guest Charge per Night (₹)</label>
-                                <input type="number" name="listing[extraGuestChargePerNight]" class="form-control" placeholder="500" min="0" value="<%= listing.extraGuestChargePerNight || 500 %>" required />
-                                <small class="text-muted">Charge for each additional guest beyond free guests</small>
-                            </div>
+                                <div class="lf-group half"><label>Maximum Total Guests</label><input type="number" name="listing[maxGuests]" class="form-control" placeholder="5" min="1" max="20" value="<%= listing.maxGuests || 5 %>" required /><small class="text-muted">Total guests allowed (adults + children)</small></div>
+                                <div
+                                    class="lf-group half"><label>Maximum Adults</label><input type="number" name="listing[maxAdults]" class="form-control" placeholder="5" min="1" max="20" value="<%= listing.maxAdults || 5 %>" required /><small class="text-muted">Maximum adults allowed</small></div>
                         </div>
-
-                        <button class="listing-submit-btn">Save Changes</button>
-
-            </form>
+                        <div class="lf-row">
+                            <div class="lf-group half"><label>Maximum Children</label><input type="number" name="listing[maxChildren]" class="form-control" placeholder="5" min="0" max="20" value="<%= listing.maxChildren || 5 %>" required /><small class="text-muted">Maximum children allowed (ages 2-12)</small></div>
+                            <div
+                                class="lf-group half"><label>Free Guests</label><input type="number" name="listing[freeGuests]" class="form-control" placeholder="3" min="0" max="20" value="<%= listing.freeGuests || 3 %>" required /><small class="text-muted">Number of guests included in base price</small></div>
         </div>
+        <!-- PET SETTINGS -->
+        <div class="lf-row">
+            <div class="lf-group half"><label>Pets Allowed</label><select name="listing[petsAllowed]" class="form-select" required><option value="false" <%=!listing.petsAllowed ? 'selected': '' %>>No</option><option value="true" <%=listing.petsAllowed ? 'selected': '' %>>Yes</option></select>
+                <small
+                    class="text-muted">Do you allow pets at your property?</small>
+            </div>
+            <div class="lf-group half"><label>Pet Charge per Night (₹)</label><input type="number" name="listing[petChargePerNight]" class="form-control" placeholder="300" min="0" value="<%= listing.petChargePerNight || 300 %>" required /><small class="text-muted">Charge per pet per night</small></div>
+        </div>
+        <!-- EXTRA GUEST CHARGE -->
+        <div class="lf-group"><label>Extra Guest Charge per Night (₹)</label><input type="number" name="listing[extraGuestChargePerNight]" class="form-control" placeholder="500" min="0" value="<%= listing.extraGuestChargePerNight || 500 %>" required /><small class="text-muted">Charge for each additional guest beyond free guests</small></div>
+    </div><button class="listing-submit-btn">Save Changes</button></form>
+    </div>
+    </div>div>
     </div>

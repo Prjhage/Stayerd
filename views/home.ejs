@@ -1,0 +1,1647 @@
+<% layout("./layouts/boilerplate") -%>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <style>
+        /* Page Window Frame */
+        
+        body {
+            border: 14px solid #fff;
+            min-height: 100vh;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+        
+         ::-webkit-scrollbar {
+            width: 12px;
+        }
+        
+         ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        
+         ::-webkit-scrollbar-thumb {
+            background: #6a11cb;
+            border-radius: 6px;
+            border: 3px solid #0f172a;
+        }
+        /* Hero Section */
+        
+        .hero-section {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 140px 20px 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+        }
+        
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,50 Q300,0 600,50 T1200,50 L1200,120 L0,120 Z" fill="rgba(255,255,255,0.1)"></path></svg>');
+            background-size: cover;
+            opacity: 0.5;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            letter-spacing: -1px;
+            animation: slideDown 0.8s ease-out;
+        }
+        
+        .hero-section p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+            animation: slideUp 0.8s ease-out 0.2s backwards;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeIn 1s ease-out 0.5s backwards;
+        }
+        
+        .btn-primary {
+            background-color: white;
+            color: #6a11cb;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-primary:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+            padding: 15px 40px;
+            border: 2px solid white;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateY(-3px);
+        }
+        /* Features Section */
+        
+        .features-section {
+            padding: 100px 20px;
+            background-color: #f8f9fa;
+        }
+        
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 60px;
+            color: #333;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: #ff385c;
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+        
+        .section-title.light {
+            color: white;
+        }
+        
+        .section-title.light::after {
+            background: white;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .feature-card {
+            background: #fff;
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid #eee;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            border-color: transparent;
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: #ff385c;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        /* How It Works Section */
+        
+        .how-it-works {
+            padding: 100px 20px;
+            background-color: #0f172a;
+            color: white;
+        }
+        
+        .how-it-works-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .step-card {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+        
+        .step-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff385c 0%, #bd1e59 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(255, 56, 92, 0.4);
+        }
+        
+        .step-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .step-card p {
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+        /* Video Section */
+        
+        .video-section {
+            padding: 100px 20px;
+            background: #f8f9fa;
+            color: #333;
+        }
+        
+        .video-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .video-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 50px;
+            color: #333;
+        }
+        
+        .videos-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+        
+        .video-wrapper {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            padding: 20px;
+            flex: 1;
+            min-width: 350px;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .video-wrapper:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .video-content {
+            padding: 0;
+        }
+        
+        .video-iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+            border-radius: 15px;
+        }
+        
+        .video-info {
+            padding: 15px 0 0 0;
+            text-align: center;
+        }
+        
+        .video-info h3 {
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .video-info p {
+            opacity: 0.9;
+            color: white;
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+        /* Stats Section */
+        
+        .stats-section {
+            background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+            color: white;
+            padding: 60px 20px;
+            border-bottom: none;
+        }
+        
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+        
+        .stat-item h4 {
+            font-size: 3rem;
+            color: white;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: none;
+            -webkit-text-fill-color: initial;
+        }
+        
+        .stat-item p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        /* FAQ Section */
+        
+        .faq-section {
+            padding: 100px 20px;
+            background-color: #fff;
+        }
+        
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .faq-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 60px;
+            color: #333;
+        }
+        
+        .faq-item {
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            background: white;
+        }
+        
+        .faq-question {
+            background-color: white;
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background-color: #fafafa;
+        }
+        
+        .faq-question h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+        
+        .faq-icon {
+            font-size: 1.5rem;
+            color: #ff385c;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background-color: white;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .faq-answer.active {
+            max-height: 500px;
+        }
+        
+        .faq-answer p {
+            padding: 20px;
+            color: #666;
+            line-height: 1.8;
+            margin: 0;
+        }
+        /* CTA Section */
+        
+        .cta-section {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+        }
+        
+        .cta-section h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+        /* Responsive Design */
+        
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            .hero-section p {
+                font-size: 1.1rem;
+            }
+            .hero-buttons {
+                flex-direction: column;
+            }
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .features-grid,
+            .steps-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            /* Scale reduce content for mobile 2-column view */
+            .feature-card,
+            .step-card {
+                padding: 15px 10px;
+            }
+            .feature-icon {
+                font-size: 2rem;
+                margin-bottom: 10px;
+            }
+            .feature-card h3,
+            .step-card h3 {
+                font-size: 0.95rem;
+                margin-top: 10px;
+            }
+            .feature-card p,
+            .step-card p {
+                font-size: 0.75rem;
+                line-height: 1.3;
+            }
+            .step-number {
+                width: 35px;
+                height: 35px;
+                font-size: 1.2rem;
+                top: -15px;
+            }
+            .cta-section h2 {
+                font-size: 1.8rem;
+            }
+            .hero-section {
+                clip-path: none;
+                padding-bottom: 60px;
+            }
+            body {
+                border-width: 0;
+            }
+        }
+        /* Animations */
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Featured Listings Section */
+        
+        .featured-listings-section {
+            padding: 100px 20px;
+            background-color: #f8f9fa;
+        }
+        
+        .featured-listings-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .featured-listings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .listing-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .listing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        .listing-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .listing-card:hover .listing-image {
+            transform: scale(1.05);
+        }
+        
+        .listing-content {
+            padding: 20px;
+        }
+        
+        .listing-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .listing-location {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .listing-rating {
+            color: #333;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .listing-rating i {
+            color: #ff385c;
+        }
+        
+        .listing-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .listing-button {
+            width: 100%;
+            padding: 12px;
+            background-color: white;
+            color: #ff385c;
+            border: none;
+            border: 1px solid #ff385c;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .listing-button:hover {
+            background-color: #ff385c;
+            color: white;
+        }
+        
+        .empty-listings {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+        
+        .empty-listings p {
+            margin-bottom: 20px;
+        }
+        
+        .view-all-button {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 15px 40px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .view-all-button:hover {
+            background-color: #000;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        /* Testimonials Section */
+        
+        .testimonials-section {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        }
+        
+        .testimonials-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .testimonial-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #ff385c;
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+        }
+        
+        .testimonial-stars {
+            color: #ff385c;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .testimonial-text {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            font-style: italic;
+        }
+        
+        .testimonial-author {
+            font-weight: 600;
+            color: #666;
+            margin: 0;
+        }
+        /* Trust Section */
+        
+        .trust-section {
+            padding: 100px 20px;
+            background-color: #0f172a;
+            color: white;
+        }
+        
+        .trust-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .trust-section .section-title {
+            color: white;
+        }
+        
+        .trust-section .section-title::after {
+            background: #ff385c;
+        }
+        
+        .trust-badges {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .trust-badge {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 385, 92, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .trust-badge:hover {
+            background: rgba(255, 385, 92, 0.1);
+            border-color: #ff385c;
+            transform: translateY(-5px);
+        }
+        
+        .trust-badge i {
+            font-size: 2.5rem;
+            color: #ff385c;
+            margin-bottom: 15px;
+        }
+        
+        .trust-badge h4 {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .trust-badge p {
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0;
+            font-size: 0.95rem;
+        }
+        /* Popular Destinations */
+        
+        .destinations-section {
+            padding: 100px 20px;
+            background-color: #f8f9fa;
+        }
+        
+        .destinations-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 50px;
+        }
+        
+        .destination-card {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .destination-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .destination-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .destination-card:hover .destination-overlay {
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .destination-overlay h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .destination-link {
+            padding: 10px 25px;
+            background: #ff385c;
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .destination-link:hover {
+            background: #e63a42;
+            transform: scale(1.05);
+        }
+        /* Host Benefits Section */
+        
+        .host-benefits-section {
+            padding: 100px 20px;
+            background-color: white;
+        }
+        
+        .host-benefits-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .benefit-card {
+            padding: 40px 30px;
+            background: #f8f9fa;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .benefit-card:hover {
+            background: white;
+            border-color: #ff385c;
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(255, 56, 92, 0.1);
+        }
+        
+        .benefit-card i {
+            font-size: 3rem;
+            color: #ff385c;
+            margin-bottom: 20px;
+        }
+        
+        .benefit-card h3 {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .benefit-card p {
+            color: #666;
+            margin: 0;
+        }
+        /* Blog Section */
+        
+        .blog-section {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        }
+        
+        .blog-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .blog-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-top: 3px solid #ff385c;
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        .blog-card h3 {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .blog-excerpt {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .read-more {
+            color: #ff385c;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .read-more:hover {
+            gap: 12px;
+        }
+        /* Responsive Design Updates */
+        
+        @media (max-width: 768px) {
+            .destinations-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .destination-card {
+                height: 120px;
+            }
+            .destination-overlay h3 {
+                font-size: 1rem;
+            }
+            .trust-badges {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .trust-badge {
+                padding: 15px 10px;
+            }
+            .trust-badge i {
+                font-size: 1.8rem;
+            }
+            .trust-badge h4 {
+                font-size: 0.9rem;
+            }
+            .trust-badge p {
+                font-size: 0.7rem;
+            }
+            .benefits-grid,
+            .featured-listings-grid,
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .benefit-card {
+                padding: 15px 10px;
+            }
+            .benefit-card i {
+                font-size: 2rem;
+                margin-bottom: 10px;
+            }
+            .benefit-card h3 {
+                font-size: 0.9rem;
+            }
+            .benefit-card p {
+                font-size: 0.75rem;
+            }
+            .stat-item h4 {
+                font-size: 1.8rem;
+            }
+            .stat-item p {
+                font-size: 0.8rem;
+            }
+            /* Featured Listings Mobile Adjustments */
+            .featured-listings-grid .listing-card:nth-child(n+3) {
+                display: none;
+            }
+            .listing-content {
+                padding: 10px;
+            }
+            .listing-image {
+                height: 130px;
+            }
+            .listing-title {
+                font-size: 0.9rem;
+                margin-bottom: 4px;
+            }
+            .listing-location,
+            .listing-rating {
+                font-size: 0.75rem;
+                margin-bottom: 5px;
+            }
+            .listing-price {
+                font-size: 1rem;
+                margin-bottom: 8px;
+            }
+            .listing-button {
+                padding: 6px;
+                font-size: 0.8rem;
+            }
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Welcome to Stayerd</h1>
+            <p>Discover unique places to stay and create unforgettable travel experiences</p>
+            <div class="hero-buttons">
+                <a href="/listings" class="btn-primary">Explore Listings</a>
+                <% if(!currUser) { %>
+                    <a href="/signup" class="btn-secondary">Become a Host</a>
+                    <% } else { %>
+                        <a href="/listings/new" class="btn-secondary">Create Listing</a>
+                        <% } %>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="features-container">
+            <h2 class="section-title reveal">Why Choose Stayerd?</h2>
+            <div class="features-grid">
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>100% Safe & Secure</h3>
+                    <p>Your safety is our priority. All transactions are secure and all hosts are verified.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-location-dot"></i>
+                    </div>
+                    <h3>Unique Locations</h3>
+                    <p>Choose from thousands of unique properties in different cities and countries.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>24/7 Support</h3>
+                    <p>Our customer support team is always ready to help you with any issues.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Verified Reviews</h3>
+                    <p>Read authentic reviews from real guests who have stayed at properties.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h3>Best Prices</h3>
+                    <p>Get competitive prices with no hidden charges. What you see is what you pay.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Easy Booking</h3>
+                    <p>Book your stay in just a few clicks using our user-friendly platform.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="how-it-works-container">
+            <h2 class="section-title reveal light">How It Works</h2>
+            <div class="steps-grid">
+                <div class="step-card reveal">
+                    <div class="step-number">1</div>
+                    <h3>Browse & Search</h3>
+                    <p>Explore thousands of unique listings and filter by your preferences, price range, and amenities.</p>
+                </div>
+                <div class="step-card reveal">
+                    <div class="step-number">2</div>
+                    <h3>Select & Check</h3>
+                    <p>View detailed photos, read reviews, check availability, and check the exact location on our map.</p>
+                </div>
+                <div class="step-card reveal">
+                    <div class="step-number">3</div>
+                    <h3>Book Your Stay</h3>
+                    <p>Complete the booking process securely. Payment is easy and you'll get instant confirmation.</p>
+                </div>
+                <div class="step-card reveal">
+                    <div class="step-number">4</div>
+                    <h3>Enjoy & Review</h3>
+                    <p>Have an amazing stay and share your experience by leaving a review to help other travelers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Listings Section -->
+    <section class="featured-listings-section">
+        <div class="featured-listings-container">
+            <h2 class="section-title reveal">Featured Listings</h2>
+            <p style="text-align: center; color: #666; font-size: 1.1rem; margin-bottom: 30px;">Discover some of our most popular and highly-rated properties</p>
+
+            <% if (featuredListings && featuredListings.length > 0) { %>
+                <div class="featured-listings-grid">
+                    <% featuredListings.forEach((listing) => { %>
+                        <div class="listing-card reveal" onclick="window.location.href='/listings/<%= listing._id %>'">
+                            <img src="<%= listing.image.url %>" alt="<%= listing.title %>" class="listing-image" />
+                            <div class="listing-content">
+                                <h3 class="listing-title">
+                                    <%= listing.title %>
+                                </h3>
+                                <div class="listing-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span><%= listing.location %></span>
+                                </div>
+                                <div class="listing-rating">
+                                    <i class="fas fa-star"></i>
+                                    <%= listing.avgRating ? listing.avgRating.toFixed(1) : 'N/A' %>
+                                        <% if (listing.reviews && listing.reviews.length > 0) { %>
+                                            (
+                                            <%= listing.reviews.length %> reviews)
+                                                <% } %>
+                                </div>
+                                <div class="listing-price">₹
+                                    <%= listing.price %>/night</div>
+                                <button class="listing-button">View Details</button>
+                            </div>
+                        </div>
+                        <% }); %>
+                </div>
+                <% } else { %>
+                    <div class="empty-listings">
+                        <p>Loading featured listings...</p>
+                        <a href="/listings" class="btn-primary">Browse All Listings</a>
+                    </div>
+                    <% } %>
+
+                        <div style="text-align: center;">
+                            <a href="/listings" class="view-all-button">View All Listings</a>
+                        </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stats-container">
+            <div class="stat-item reveal">
+                <h4>5,000+</h4>
+                <p>Properties Listed</p>
+            </div>
+            <div class="stat-item reveal">
+                <h4>50,000+</h4>
+                <p>Happy Guests</p>
+            </div>
+            <div class="stat-item reveal">
+                <h4>100+</h4>
+                <p>Cities Covered</p>
+            </div>
+            <div class="stat-item reveal">
+                <h4>4.8/5</h4>
+                <p>Average Rating</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Videos Section -->
+    <section class="video-section" id="video-section">
+        <div class="video-container">
+            <h2 class="section-title reveal">Watch How It Works</h2>
+            <div class="videos-grid">
+                <!-- Video 1: How to Book -->
+                <div class="video-wrapper reveal">
+                    <div class="video-content">
+                        <video class="video-iframe" controls muted loop>
+                            <source src="/videos/guest-video.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="video-info">
+                            <h3>How to Book a Stay</h3>
+                            <p>Learn how to easily find and book your perfect stay with our simple booking process.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video 2: How to Create a Listing -->
+                <div class="video-wrapper reveal">
+                    <div class="video-content">
+                        <video class="video-iframe" controls muted loop>
+                            <source src="/videos/host-video.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="video-info">
+                            <h3>How to Create a Listing</h3>
+                            <p>Step-by-step guide to listing your property and start earning money with Stayerd.</p>
+                        </div>
+                    </div>
+                </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <!-- <section class="testimonials-section">
+        <div class="testimonials-container">
+            <h2 class="section-title reveal">What Our Guests Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Amazing experience! The property was exactly as described, clean, and the host was super responsive. Highly recommend Stayerd for your next vacation!"</p>
+                    <p class="testimonial-author">- Sarah Johnson, USA</p>
+                </div>
+
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Best vacation rental platform I've used. Great variety of properties, transparent pricing, and excellent customer support. Booked again!"</p>
+                    <p class="testimonial-author">- Raj Patel, India</p>
+                </div>
+
+                <div class="testimonial-card reveal">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"I've tried several platforms, but Stayerd has the best interface and most helpful hosts. My family had an unforgettable experience!"</p>
+                    <p class="testimonial-author">- Emily Davis, UK</p>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- Trust Badges Section -->
+    <section class="trust-section">
+        <div class="trust-container">
+            <h2 class="section-title reveal">Trusted & Verified</h2>
+            <div class="trust-badges">
+                <div class="trust-badge reveal">
+                    <i class="fas fa-check-circle"></i>
+                    <h4>Verified Hosts</h4>
+                    <p>All hosts are verified with ID and reviews from real guests</p>
+                </div>
+                <div class="trust-badge reveal">
+                    <i class="fas fa-lock"></i>
+                    <h4>Secure Payments</h4>
+                    <p>SSL encrypted transactions with trusted payment gateways</p>
+                </div>
+                <div class="trust-badge reveal">
+                    <i class="fas fa-user-shield"></i>
+                    <h4>Guest Protection</h4>
+                    <p>Money-back guarantee if property doesn't meet description</p>
+                </div>
+                <div class="trust-badge reveal">
+                    <i class="fas fa-phone"></i>
+                    <h4>24/7 Support</h4>
+                    <p>Round-the-clock customer support for peace of mind</p>
+                </div>
+                <div class="trust-badge reveal">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>Data Privacy</h4>
+                    <p>Your data is protected with enterprise-grade security</p>
+                </div>
+                <div class="trust-badge reveal">
+                    <i class="fas fa-award"></i>
+                    <h4>Industry Leader</h4>
+                    <p>Award-winning platform trusted by millions worldwide</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Why Host With Us Section -->
+    <section class="host-benefits-section">
+        <div class="host-benefits-container">
+            <h2 class="section-title reveal">Why Host With Stayerd?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card reveal">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Increase Your Earnings</h3>
+                    <p>Our competitive pricing tools help you earn up to 40% more than other platforms</p>
+                </div>
+                <div class="benefit-card reveal">
+                    <i class="fas fa-users"></i>
+                    <h3>Global Exposure</h3>
+                    <p>Your property reaches millions of travelers across 150+ countries worldwide</p>
+                </div>
+                <div class="benefit-card reveal">
+                    <i class="fas fa-tools"></i>
+                    <h3>Hosting Tools</h3>
+                    <p>Advanced calendar management, automated messaging, and booking tools</p>
+                </div>
+                <div class="benefit-card reveal">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>Host Academy</h3>
+                    <p>Free training courses and guides to maximize your occupancy rate</p>
+                </div>
+                <div class="benefit-card reveal">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Host Protection</h3>
+                    <p>Property damage coverage up to $1,000,000 for peace of mind</p>
+                </div>
+                <div class="benefit-card reveal">
+                    <i class="fas fa-headset"></i>
+                    <h3>Dedicated Support</h3>
+                    <p>Personal host specialist team available to help you succeed</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Preview Section -->
+    <!-- <section class="blog-section">
+        <div class="blog-container">
+            <h2 class="section-title reveal">Latest Travel Tips & Insights</h2>
+            <div class="blog-grid">
+                <article class="blog-card reveal">
+                    <h3>Top 10 Budget-Friendly Vacation Destinations 2024</h3>
+                    <p class="blog-excerpt">Discover amazing places to stay that won't break the bank. Perfect for travelers on a budget.</p>
+                    <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </article>
+                <article class="blog-card reveal">
+                    <h3>How to Be a Great Host: Essential Tips</h3>
+                    <p class="blog-excerpt">Learn insider tips from successful hosts on how to get 5-star reviews consistently.</p>
+                    <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </article>
+                <article class="blog-card reveal">
+                    <h3>Sustainable Travel Guide: Eco-Friendly Accommodations</h3>
+                    <p class="blog-excerpt">Find eco-conscious properties and learn how to travel sustainably without compromising comfort.</p>
+                    <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                </article>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="faq-container">
+            <h2 class="section-title reveal">Frequently Asked Questions</h2>
+
+            <div class="faq-item reveal">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <h3>How do I create an account?</h3>
+                    <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Creating an account is simple! Click on the "Sign Up" button, enter your email address, choose a password, and verify your email. You can then complete your profile with your personal information and payment details.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <h3>Is my payment information secure?</h3>
+                    <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, absolutely! We use industry-standard encryption and comply with PCI-DSS standards to ensure your payment information is secure. All transactions are processed through trusted payment gateways.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <h3>What is the cancellation policy?</h3>
+                    <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Cancellation policies vary by listing. Most properties offer flexible, moderate, or strict cancellation options. You can see the specific policy for each property when you're browsing listings. Cancellations made before the deadline
+                        will receive a full or partial refund depending on the policy.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <h3>How do I become a host?</h3>
+                    <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>To become a host, sign up for an account, complete your profile verification, and then you can start creating listings. You'll need to provide details about your property, upload photos, set your pricing, and specify your availability.
+                        Once published, guests can book your property.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <h3>How do I receive payments from bookings?</h3>
+                    <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Payments are transferred to your bank account or preferred payment method within 3-5 business days after the guest checks out. You can view your earnings and transaction history in your host dashboard.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <h3>What happens if there's a dispute?</h3>
+                    <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>In case of any disputes, our dedicated support team will mediate and work to find a fair resolution. We have a comprehensive dispute resolution process in place to protect both guests and hosts. Contact our support team immediately
+                        if you encounter any issues.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <h3>Can I modify my listing after publishing?</h3>
+                    <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes! You can edit your listing details, photos, pricing, and availability at any time from your host dashboard. Changes are effective immediately and will be visible to potential guests.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <h3>Is there a service fee?</h3>
+                    <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, guests pay a small service fee at the time of booking (typically 5-10% of the total stay price). Hosts also pay a service fee on earnings, which is deducted when payments are processed. This fee helps us maintain our platform
+                        and provide 24/7 support.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <h3>How do reviews work?</h3>
+                    <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>After a guest's stay, they can leave a review and rating for the property. Similarly, hosts can leave reviews for guests. Reviews are verified to ensure they're from actual guests who stayed at the property. Both positive and constructive
+                        reviews help improve the Stayerd community.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2 class="reveal">Ready to Get Started?</h2>
+        <p class="reveal">Join thousands of travelers and hosts who trust Stayerd for amazing travel experiences</p>
+        <% if(!currUser) { %>
+            <div class="hero-buttons reveal">
+                <a href="/listings" class="btn-primary">Browse Listings</a>
+                <a href="/signup" class="btn-secondary">Create Account</a>
+            </div>
+            <% } else { %>
+                <div class="hero-buttons reveal">
+                    <a href="/listings" class="btn-primary">Explore Listings</a>
+                    <a href="/listings/new" class="btn-secondary">Create a Listing</a>
+                </div>
+                <% } %>
+    </section>
+
+    <script>
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('.faq-icon i');
+
+            // Close all other FAQs
+            document.querySelectorAll('.faq-answer').forEach(faq => {
+                if (faq !== answer) {
+                    faq.classList.remove('active');
+                }
+            });
+
+            document.querySelectorAll('.faq-icon i').forEach(i => {
+                if (i !== icon) {
+                    i.style.transform = 'rotate(0deg)';
+                }
+            });
+
+            // Toggle current FAQ
+            answer.classList.toggle('active');
+            icon.style.transform = answer.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+
+        // Scroll Animation
+        window.addEventListener('scroll', reveal);
+
+        function reveal() {
+            var reveals = document.querySelectorAll('.reveal');
+
+            for (var i = 0; i < reveals.length; i++) {
+                var windowheight = window.innerHeight;
+                var revealtop = reveals[i].getBoundingClientRect().top;
+                var revealpoint = 150;
+
+                if (revealtop < windowheight - revealpoint) {
+                    reveals[i].classList.add('active');
+                } else {
+                    reveals[i].classList.remove('active');
+                }
+            }
+        }
+
+        // Trigger once on load
+        reveal();
+
+        // Video autoplay on scroll
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const video = entry.target;
+                if (entry.isIntersecting) {
+                    video.play();
+                } else {
+                    video.pause();
+                }
+            });
+        }, {
+            threshold: 0.5 // Play when 50% of the video is visible
+        });
+
+        // Observe all videos in the video section
+        document.querySelectorAll('#video-section video').forEach(video => {
+            videoObserver.observe(video);
+        });
+    </script>
+    </script>
+    </script>
+    </script>
+    </script>
+    </script>
