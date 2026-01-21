@@ -48,6 +48,16 @@
             transform: translateY(-10px);
         }
     }
+
+    @keyframes bounce-horizontal {
+        0%,
+        100% {
+            transform: translateX(0);
+        }
+        50% {
+            transform: translateX(8px);
+        }
+    }
     
     .navbar-brand:hover {
         transform: scale(1.05);
@@ -287,12 +297,16 @@
             margin-right: 0;
             z-index: 10;
             position: relative;
-            font-size: 1.2rem;
+            font-size: 1rem;
             display: flex;
             align-items: center;
+            flex-direction: row;
+            gap: 3px;
         }
         .navbar-brand i {
-            display: none !important;
+            display: inline-block !important;
+            font-size: 0.6rem;
+            animation: bounce-horizontal 1s infinite;
         }
         .btn-search-init {
             height: 38px;
